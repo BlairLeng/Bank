@@ -1,12 +1,10 @@
 package LoginSystem;
 
+import java.util.ArrayList;
+
 public interface LoginFunctions {
 	
-	public String SignupNewUser(String username, String password);
-	
-	public String SignupNewSavingAccount(String username, double money);
-	
-	public String SignupNewCheckingAccount(String username, double money);
+	public String SignupNewUser(String username, String password, String type, ArrayList<String> AccountIDs);
 	
 	public String LoginAsUser(String username, String password);
 	
