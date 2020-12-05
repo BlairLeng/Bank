@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public class SavingAccount extends Account{
 
-	public SavingAccount(String name, double money, String password) {
-		super(name, money, password);
+	public SavingAccount(String name, double money) {
+		super(name, money);
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -6,7 +6,7 @@ public interface GeneralAccountFunctions {
 	
 	public String RequestLoan();
 	
-	public Transaction[] getTransactionHistory();
+	public String getTransactionHistory();
 	
 	public double getCurrentBalance();
 	

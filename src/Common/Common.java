@@ -10,4 +10,6 @@ public class Common {
 	public static final String UsernameNotFound = "Username is NOT found!";
 	public static final String InvalidPassword = "This is an INVALID password!";
 	public static final String InvalidUsername = "This is an INVALID username!";
+	
+	public static final String UsernameAlreadyExists = "Username already exists!";
 }

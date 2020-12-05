@@ -10,15 +10,12 @@ import java.time.format.DateTimeFormatter;
 public abstract class Account implements GeneralAccountFunctions{
 	private LocalDateTime dateTime;
 	private String name;
-	private String password; 
 	private double money;
 	private UUID uuid;
-	private Transaction[] transactionHistory;
 	
-	public Account(String name, double money, String password){
+	public Account(String name, double money){
 		this.name = name;
 		this.money = money;
-		this.password = password;
 		this.dateTime = LocalDateTime.now();
 		this.uuid = UUID.randomUUID();
 	}
@@ -45,8 +42,8 @@ public abstract class Account implements GeneralAccountFunctions{
 		return Common.Success;
 	}
 	
-	public Transaction[] getTransactionHistory() {
-		return this.transactionHistory;
+	public String getTransactionHistory() {
+		return Common.Success;
 	}
 	
 	public String Deposit(double money) {
