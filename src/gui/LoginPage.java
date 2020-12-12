@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import LoginSystem.LoginSystem;
 import User.User;
 
