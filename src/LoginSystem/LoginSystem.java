@@ -22,14 +22,14 @@ public class LoginSystem implements LoginFunctions{
 	}
 
 	@Override
-	public String SignupNewUser(String username, String password, String type, ArrayList<String> AccountIDs) {
+	public String SignupNewUser(String username, String password, String type) {
 		// TODO Auto-generated method stub
 		if (Users.containsKey(username)) {
 			return Common.UsernameAlreadyExists;
 		}
 		if (!Users.containsKey(username)) {
 			Users.put(username, password);
-			User newUser = new User(username, password, type, AccountIDs); 
+			User newUser = new User(username, password, type); 
 			UsersObjects.add(newUser);
 			return Common.Success;
 		}
