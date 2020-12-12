@@ -53,9 +53,9 @@ public class LoginSystemSQL {
 					+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()) {
-			if (rs.getString("Username") == username 
-					&& rs.getString("Password") == password
-					&& rs.getString("Type") == "user") {
+			if (rs.getString("Username").equals(username) 
+					&& rs.getString("Password").equals(password)
+					&& rs.getString("Type").equals("user")) {
 				return Common.Success;
 			}
 			return Common.Failed;
@@ -74,9 +74,12 @@ public class LoginSystemSQL {
 					+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()) {
-			if (rs.getString("Username") == username 
-					&& rs.getString("Password") == password
-					&& rs.getString("Type") == "manager") {
+			System.out.println(rs.getString("Username"));
+			System.out.println(rs.getString("Password"));
+			System.out.println(rs.getString("Type"));
+			if (rs.getString("Username").equals(username) 
+					&& rs.getString("Password").equals(password)
+					&& rs.getString("Type").equals("manager")) {
 				return Common.Success;
 			}
 			return Common.Failed;
