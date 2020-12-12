@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-
+import Database.DatabaseTables;
+import LoginSystem.LoginSystem;
+import User.User;
 import Config.DatabaseConfig;
 import Common.Common;
 
@@ -13,24 +16,20 @@ public class DatabaseConnection {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		Connection con = getConnection();
-		Statement stmt=con.createStatement();
-		
-		/*
-		Example here 
-		
-		String sql = "CREATE TABLE REGISTRATION " +
-                "(id INTEGER not NULL, " +
-                " first VARCHAR(255), " + 
-                " last VARCHAR(255), " + 
-                " age INTEGER, " + 
-                " PRIMARY KEY ( id ))"; 
-		stmt.executeUpdate(sql);
-
-
-		 */
+//		Connection con = getConnection();
+//		Statement stmt=con.createStatement();
+//		User testuser = new User("zhang","123","user");
+//
+//		String sql = DatabaseTables.userTable;
+//		stmt.executeUpdate(sql);
+//		sql = "INSERT INTO `user` "
+//				+ "(`Username`,`Password`,`Type`) "
+//				+ "VALUES (" + '"' + testuser.getUsername() + '"' +", " + testuser.getPassword()  + ", " + '"' + testuser.getType() + '"' + ")";
+//		System.out.println(sql);
+//		stmt.executeUpdate(sql);
+//		LoginSystem ls = new LoginSystem();
+//		ls.SignupNewUser("li", "123", "user");
 	}
-	
 	
 	public static Connection getConnection() throws Exception{
 		try {

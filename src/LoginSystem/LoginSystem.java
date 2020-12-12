@@ -1,68 +1,62 @@
 package LoginSystem;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import Common.Common;
 import User.User;
+import LoginSystem.LoginSystemSQL;
 import Account.Account;
 
 
 public class LoginSystem implements LoginFunctions{
-	
-	private HashMap<String, String> Users;
-	private ArrayList<User> UsersObjects;
+	public Connection con;
 	
 	public LoginSystem
 	(
-			HashMap<String, String> Users,
-			ArrayList<User> UsersObjects
+		Connection con
 	) {
-		this.Users = Users;
-		this.UsersObjects = UsersObjects;
+		this.con = con;
 	}
+	
 
 	@Override
-	public String SignupNewUser(String username, String password, String type) {
+	public String SignupNewUser(String username, String password, String type) throws Exception {
 		// TODO Auto-generated method stub
-		if (Users.containsKey(username)) {
+		if (LoginSystemSQL.checkUser(username,con) == Common.Success) {
+			System.out.println(Common.UsernameAlreadyExists);
 			return Common.UsernameAlreadyExists;
 		}
-		if (!Users.containsKey(username)) {
-			Users.put(username, password);
+		
+		if (LoginSystemSQL.checkUser(username,con) == Common.Failed) {
 			User newUser = new User(username, password, type); 
-			UsersObjects.add(newUser);
+			LoginSystemSQL.SignupNewUser(newUser, con);
 			return Common.Success;
 		}
 		return Common.Failed;
 	}
 
 	@Override
-	public String LoginAsUser(String username, String password) {
+	public String LoginAsUser(String username, String password) throws Exception {
 		// TODO Auto-generated method stub
-		if (!Users.containsKey(username)) {
-			return Common.UsernameNotFound;
-		}
-		if (Users.get(username) != password) {
-			return Common.InvalidPassword;
-		}
-		if (Users.get(username) == password) {
+		String result = LoginSystemSQL.checkPasswordUser(username, password, con);
+		if (result == Common.Success) {
 			return Common.Success;
 		}
-		return Common.Failed;
+		else {
+			return result; 
+		}
 	}
 
 	@Override
-	public String LoginAsManager(String username, String password) {
+	public String LoginAsManager(String username, String password) throws Exception {
 		// TODO Auto-generated method stub
-		if (!Users.containsKey(username)) {
-			return Common.UsernameNotFound;
-		}
-		if (Users.get(username) != password) {
-			return Common.InvalidPassword;
-		}
-		if (Users.get(username) == password) {
+		String result = LoginSystemSQL.checkPasswordManager(username, password, con);
+		if (result == Common.Success) {
 			return Common.Success;
 		}
-		return Common.Failed;
+		else {
+			return result; 
+		}
 	}
 }
