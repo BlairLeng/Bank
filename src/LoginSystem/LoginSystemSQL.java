@@ -19,7 +19,9 @@ public class LoginSystemSQL {
 				+ newUser.getUsername() 
 				+ '"' 
 				+ ", " 
-				+ newUser.getPassword()  
+				+ '"'
+				+ newUser.getPassword().toString()  
+				+ '"'
 				+ ", " 
 				+ '"' 
 				+ newUser.getType() 
