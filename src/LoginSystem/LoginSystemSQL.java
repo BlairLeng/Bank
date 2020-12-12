@@ -74,9 +74,9 @@ public class LoginSystemSQL {
 					+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()) {
-			System.out.println(rs.getString("Username"));
-			System.out.println(rs.getString("Password"));
-			System.out.println(rs.getString("Type"));
+//			System.out.println(rs.getString("Username"));
+//			System.out.println(rs.getString("Password"));
+//			System.out.println(rs.getString("Type"));
 			if (rs.getString("Username").equals(username) 
 					&& rs.getString("Password").equals(password)
 					&& rs.getString("Type").equals("manager")) {
