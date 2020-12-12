@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 import LoginSystem.LoginSystem;
 import User.User;
 
@@ -6,24 +6,19 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Component;
-import javax.swing.Box;
 import java.awt.Dimension;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
-
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import java.awt.Point;
+
+import Common.Common;
+
+import java.sql.Connection;
+
+
+import Database.DatabaseConnection;
+
 import java.awt.Font;
 import javax.swing.JPasswordField;
-import javax.swing.JComboBox;
-import javax.swing.JToggleButton;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -35,29 +30,28 @@ import java.util.HashMap;
 public class LoginPage {
 
 	private JFrame frmBank;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField userField;
+	private JPasswordField pswField;
 	private LoginSystem loginSystem;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					HashMap<String, String> Users = new HashMap<>();
-//					ArrayList<User> UsersObjects = new ArrayList<>();
-//					LoginSystem loginSystem = new LoginSystem(Users, UsersObjects);
-//					LoginPage window = new LoginPage(loginSystem);
-//					window.Show();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Connection connection = DatabaseConnection.getConnection();
+					LoginSystem loginSystem = new LoginSystem(connection);
+					LoginPage window = new LoginPage(loginSystem);
+					window.Show();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the application.
@@ -77,6 +71,7 @@ public class LoginPage {
 	 */
 	private void initialize() {
 		frmBank = new JFrame();
+		frmBank.setResizable(false);
 		frmBank.getContentPane().setFont(new Font("宋体", Font.PLAIN, 16));
 		frmBank.setTitle("Bank");
 		frmBank.setBounds(100, 100, 200, 150);
@@ -84,66 +79,101 @@ public class LoginPage {
 		frmBank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBank.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("User:");
-		lblNewLabel.setFont(new Font("宋体", Font.BOLD, 16));
-		lblNewLabel.setBounds(40, 20, 80, 25);
-		frmBank.getContentPane().add(lblNewLabel);
+		JLabel userJLabel = new JLabel("User:");
+		userJLabel.setFont(new Font("宋体", Font.BOLD, 16));
+		userJLabel.setBounds(40, 20, 80, 25);
+		frmBank.getContentPane().add(userJLabel);
 		
-		JLabel lblPassword = new JLabel("Password:");
-		lblPassword.setFont(new Font("宋体", Font.BOLD, 16));
-		lblPassword.setBounds(40, 65, 80, 25);
-		frmBank.getContentPane().add(lblPassword);
+		JLabel pswJLabel = new JLabel("Password:");
+		pswJLabel.setFont(new Font("宋体", Font.BOLD, 16));
+		pswJLabel.setBounds(40, 65, 80, 25);
+		frmBank.getContentPane().add(pswJLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(120, 20, 180, 25);
-		frmBank.getContentPane().add(textField);
-		textField.setColumns(10);
+		userField = new JTextField();
+		userField.setBounds(120, 20, 180, 25);
+		frmBank.getContentPane().add(userField);
+		userField.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(120, 65, 180, 25);
-		frmBank.getContentPane().add(passwordField);
+		pswField = new JPasswordField();
+		pswField.setBounds(120, 65, 180, 25);
+		frmBank.getContentPane().add(pswField);
 		
-		JRadioButton rdbtnCustomer = new JRadioButton("Customer",true);
-		buttonGroup.add(rdbtnCustomer);
-		rdbtnCustomer.setFont(new Font("宋体", Font.PLAIN, 16));
-		rdbtnCustomer.setBounds(40, 110, 100, 25);
-		frmBank.getContentPane().add(rdbtnCustomer);
+		JRadioButton customerJRadioButton = new JRadioButton("Customer",true);
+		buttonGroup.add(customerJRadioButton);
+		customerJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		customerJRadioButton.setBounds(40, 110, 100, 25);
+		frmBank.getContentPane().add(customerJRadioButton);
 		
-		JRadioButton rdbtnManager = new JRadioButton("Manager");
-		buttonGroup.add(rdbtnManager);
-		rdbtnManager.setFont(new Font("宋体", Font.PLAIN, 16));
-		rdbtnManager.setBounds(40, 155, 100, 25);
-		frmBank.getContentPane().add(rdbtnManager);
+		JRadioButton manageJRadioButton = new JRadioButton("Manager");
+		buttonGroup.add(manageJRadioButton);
+		manageJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		manageJRadioButton.setBounds(40, 155, 100, 25);
+		frmBank.getContentPane().add(manageJRadioButton);
 		
-		JButton btnLogin = new JButton("Login");
-		btnLogin.addMouseListener(new MouseAdapter() {
+		JButton loginJButton = new JButton("Login");
+		loginJButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(rdbtnCustomer.isSelected()) {
+				if(customerJRadioButton.isSelected()) {
 
-					String string = loginAsCustomer(textField.getText(), new String(passwordField.getPassword()));
+					String string = loginAsCustomer(userField.getText(), new String(pswField.getPassword()));
 					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
 				}else {
 
-					String string = loginAsManager(textField.getText(), new String(passwordField.getPassword()));
+					String string = loginAsManager(userField.getText(), new String(pswField.getPassword()));
 					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsManager Info",JOptionPane.WARNING_MESSAGE);
 				}
 				
 			}
 		});
-		btnLogin.setFont(new Font("宋体", Font.PLAIN, 16));
-		btnLogin.setBounds(180, 110, 100, 25);
-		frmBank.getContentPane().add(btnLogin);
+		loginJButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		loginJButton.setBounds(180, 110, 100, 25);
+		frmBank.getContentPane().add(loginJButton);
 		
-		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp.setFont(new Font("宋体", Font.PLAIN, 16));
-		btnSignUp.setBounds(180, 155, 100, 25);
-		frmBank.getContentPane().add(btnSignUp);
+		JButton signupJButton = new JButton("Sign Up");
+		signupJButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(customerJRadioButton.isSelected()) {
+
+					String string = signup(userField.getText(), new String(pswField.getPassword()), "Customer");
+					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
+				}else {
+
+					String string = signup(userField.getText(), new String(pswField.getPassword()), "Manager");
+					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsManager Info",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		signupJButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		signupJButton.setBounds(180, 155, 100, 25);
+		frmBank.getContentPane().add(signupJButton);
 	}
 	private String loginAsCustomer(String username,String psw) {
-		return this.loginSystem.LoginAsUser(username, psw);
+		String result = Common.Failed;
+		try {
+			result = this.loginSystem.LoginAsUser(username, psw);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	private String loginAsManager(String username,String psw) {
-		return this.loginSystem.LoginAsManager(username, psw);
+		String result = Common.Failed;
+		try {
+			result = this.loginSystem.LoginAsManager(username, psw);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	private String signup(String username,String psw,String type) {
+		String result = Common.Failed;
+		try {
+			result = this.loginSystem.SignupNewUser(username, psw, type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
