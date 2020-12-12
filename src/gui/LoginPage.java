@@ -43,21 +43,21 @@ public class LoginPage {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					HashMap<String, String> Users = new HashMap<>();
-					ArrayList<User> UsersObjects = new ArrayList<>();
-					LoginSystem loginSystem = new LoginSystem(Users, UsersObjects);
-					LoginPage window = new LoginPage(loginSystem);
-					window.Show();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					HashMap<String, String> Users = new HashMap<>();
+//					ArrayList<User> UsersObjects = new ArrayList<>();
+//					LoginSystem loginSystem = new LoginSystem(Users, UsersObjects);
+//					LoginPage window = new LoginPage(loginSystem);
+//					window.Show();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
