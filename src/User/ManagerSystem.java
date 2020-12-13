@@ -71,5 +71,19 @@ public class ManagerSystem implements ManagerSystemFunctions{
 		ManagerSystem ms=new ManagerSystem(conn);
 		System.out.print(ms.Allaccounts());
 	}
+
+
+	@Override
+	public ArrayList<CheckingAccount> Allcheckaccounts() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ArrayList<SavingAccount> Allsaveaccounts() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
