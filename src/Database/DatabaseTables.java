@@ -26,11 +26,12 @@ public class DatabaseTables {
 			"  LoanReason varchar(100),\r\n" +
 			"  AccountID varchar(100) NOT NULL,\r\n" + 
 			"  BeginDatatime datetime(0) NOT NULL,\r\n" + 
-			"  EndDatatime datetime(0) NOT NULL,\r\n" + 
+			"  EndDatatime datetime(0) NOT NULL,\r\n" +
+			"  MoneyOwed DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  MoneyLoaned DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  MoneyReturned DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  InterestRate DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
-			"  Completed bit(255) NOT NULL,\r\n" + 
+			"  Status int(10) NOT NULL,\r\n" + 
 			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES Account(AccountID),\r\n" + 
 			"  PRIMARY KEY (LoanID)\r\n" + 
 			");";
