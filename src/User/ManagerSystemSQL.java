@@ -46,7 +46,7 @@ public class ManagerSystemSQL {
 		String sql="SELECT * FROM account";
 		ResultSet rs=stmt.executeQuery(sql);
 		if(rs.next()) {
-			Account a=new Account(rs.getDate("CreateTime"), rs.getString("Username"),
+			CheckingAccount a=new CheckingAccount(rs.getDate("CreateTime"), rs.getString("Username"),
 					rs.getDouble("CurrentBalance"), rs.getString("AccountID"), rs.getString("Type"));
 			aal.add(a);
 		}
