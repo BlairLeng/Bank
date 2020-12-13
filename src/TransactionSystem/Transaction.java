@@ -28,16 +28,16 @@ public class Transaction {
 		this.transidstring=this.transid.toString();
 	}
 	
-	public Transaction(LocalDateTime transtime,double money,String transname,String transid,String suid,String ruid) {
+	public Transaction(LocalDateTime transtime,double money,String transname,String transids,String suids,String ruids) {
 		this.transferTime=transtime;
 		this.money=money;
-		this.transidstring=transid;
-		this.receiverUUIDstring=ruid;
-		this.senderUUIDstring=suid;
+		this.transidstring=transids;
+		this.receiverUUIDstring=ruids;
+		this.senderUUIDstring=suids;
 		this.transname=transname;
-		this.transid=UUID.fromString(this.transidstring);
-		this.senderUUID=UUID.fromString(this.senderUUIDstring);
-		this.receiverUUID=UUID.fromString(this.receiverUUIDstring);
+		//this.transid= UUID.fromString(this.transidstring);
+		//this.senderUUID= UUID.fromString(this.senderUUIDstring);
+		//this.receiverUUID= UUID.fromString(this.receiverUUIDstring);
 	}
 	
 	public String getTransTime() {

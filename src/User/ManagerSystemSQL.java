@@ -17,14 +17,22 @@ public class ManagerSystemSQL {
 		return rs;
 	}
 
-	public static ArrayList<Transaction> alltransactions(Connection conn) throws SQLException {
-		Statement stmt = conn.createStatement();
-		ArrayList<Transaction> tal = new ArrayList<Transaction>();
-		String sql = "SELECT * FROM transaction";
-		ResultSet rs = stmt.executeQuery(sql);
-		if (rs.next()) {
-		}
-		return tal;
+	
+	public static ResultSet alltrans(Connection conn) throws SQLException{
+		Statement stmt=conn.createStatement();
+		String sql="SELECT * FROM trans";
+		ResultSet rs=stmt.executeQuery(sql);
+		return rs;
+	}
+	
+	public static ResultSet checkusertrans(Connection conn,String username) throws SQLException{
+		Statement stmt=conn.createStatement();
+		String sql="SELECT * FROM account,trans WHERE account.Username = "
+				+"'"
+				+username
+				+"' AND (account.AccountID = trans.SenderID OR account.AccountID = trans.ReceiverID)";
+		ResultSet rs=stmt.executeQuery(sql);
+		return rs;
 	}
 
 }

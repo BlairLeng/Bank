@@ -7,8 +7,10 @@ import TransactionSystem.Transaction;
 
 public interface ManagerSystemFunctions {
 	
-	public ArrayList<Transaction> Alltransactions() throws Exception;
-	
 	public ArrayList<Account> Allaccounts() throws Exception;
+	
+	public ArrayList<Transaction> Alltrans() throws Exception;
+	
+	public ArrayList<Transaction> Usertrans(String username) throws Exception;
 
 }

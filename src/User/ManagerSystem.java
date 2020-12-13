@@ -26,13 +26,6 @@ public class ManagerSystem implements ManagerSystemFunctions{
 	
 	
 	@Override
-	public ArrayList<Transaction> Alltransactions() throws Exception{
-		ArrayList<Transaction> al=new ArrayList<Transaction>();
-		al=ManagerSystemSQL.alltransactions(conn);
-		return al;
-	}
-	
-	@Override
 	public ArrayList<Account> Allaccounts() throws Exception{
 		ArrayList<Account> al=new ArrayList<Account>();
 		ResultSet rs=ManagerSystemSQL.allaccounts(conn);
@@ -68,5 +61,56 @@ public class ManagerSystem implements ManagerSystemFunctions{
 		return al;
 	}
 	
+	@Override
+	public ArrayList<Transaction> Alltrans() throws Exception{
+		ArrayList<Transaction> al=new ArrayList<Transaction>();
+		ResultSet rs=ManagerSystemSQL.alltrans(conn);
+		while(rs.next()) {
+			LocalDate ld=rs.getDate("Datetime").toLocalDate();
+			LocalTime lt=rs.getTime("Datetime").toLocalTime();
+			LocalDateTime ldt=LocalDateTime.of(ld, lt);
+			Transaction t=new Transaction(
+					ldt, 
+					rs.getDouble("Money"), 
+					rs.getString("TransName"), 
+					rs.getString("TransID"), 
+					rs.getString("SenderID"), 
+					rs.getString("ReceiverID")
+					);
+			al.add(t);
+		}
+		return al;
+	}
+	
+	@Override
+	public ArrayList<Transaction> Usertrans(String username) throws Exception{
+		ArrayList<Transaction> al=new ArrayList<Transaction>();
+		ResultSet rs=ManagerSystemSQL.checkusertrans(conn, username);
+		while(rs.next()) {
+			LocalDate ld=rs.getDate("Datetime").toLocalDate();
+			LocalTime lt=rs.getTime("Datetime").toLocalTime();
+			LocalDateTime ldt=LocalDateTime.of(ld, lt);
+			Transaction t=new Transaction(
+					ldt, 
+					rs.getDouble("Money"), 
+					rs.getString("TransName"), 
+					rs.getString("TransID"), 
+					rs.getString("SenderID"), 
+					rs.getString("ReceiverID")
+					);
+			al.add(t);
+		}
+		return al;
+	}
+	
+	
+	/*
+	public static void main(String[] args)throws Exception {
+		Connection conn=DatabaseConnection.getConnection();
+		Statement stmt=conn.createStatement();
+		ManagerSystem ms=new ManagerSystem(conn);
+		System.out.print(ms.Usertrans("111").get(1).gettransname());
+	}
+	*/
 	
 }
