@@ -28,6 +28,18 @@ public class Transaction {
 		this.transidstring=this.transid.toString();
 	}
 	
+	public Transaction(LocalDateTime transtime,double money,String transname,String transid,String suid,String ruid) {
+		this.transferTime=transtime;
+		this.money=money;
+		this.transidstring=transid;
+		this.receiverUUIDstring=ruid;
+		this.senderUUIDstring=suid;
+		this.transname=transname;
+		this.transid=UUID.fromString(this.transidstring);
+		this.senderUUID=UUID.fromString(this.senderUUIDstring);
+		this.receiverUUID=UUID.fromString(this.receiverUUIDstring);
+	}
+	
 	public String getTransTime() {
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	    String formattedDate = transferTime.format(myFormatObj);
