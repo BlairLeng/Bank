@@ -4,7 +4,10 @@ import java.util.UUID;
 import CentralSystem.Transaction;
 import Common.Common;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public abstract class Account implements GeneralAccountFunctions{
@@ -19,6 +22,16 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.money = money;
 		this.dateTime = LocalDateTime.now();
 		this.uuid = UUID.randomUUID();
+	}
+	
+	public Account(Date dateTime,String name,double money,String uuid,String type) {
+		Instant instant=dateTime.toInstant();
+		ZoneId zoneId = ZoneId.systemDefault();
+		this.name=name;
+		this.money=money;
+		this.dateTime=instant.atZone(zoneId).toLocalDateTime();
+		this.uuid=UUID.fromString(uuid);
+		this.type=type;
 	}
 	
 	protected String setType(String type) {

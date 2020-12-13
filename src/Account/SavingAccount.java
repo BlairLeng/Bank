@@ -1,5 +1,6 @@
 package Account;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class SavingAccount extends Account{
@@ -10,4 +11,7 @@ public class SavingAccount extends Account{
 		this.setType("SavingAccount");
 	}
 	
+	public SavingAccount(Date dateTime,String name,double money,String uuid,String type) {
+		super(dateTime, name, money, uuid, type);
+	}
 }

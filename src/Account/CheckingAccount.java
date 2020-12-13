@@ -1,6 +1,8 @@
 package Account;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class CheckingAccount extends Account{
 
@@ -8,6 +10,10 @@ public class CheckingAccount extends Account{
 		super(name, money);
 		// TODO Auto-generated constructor stub
 		this.setType("CheckingAccount");
+	}
+	
+	public CheckingAccount(Date dateTime,String name,double money,String uuid,String type) {
+		super(dateTime, name, money, uuid, type);
 	}
 	
 }
