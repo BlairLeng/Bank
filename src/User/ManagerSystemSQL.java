@@ -23,9 +23,6 @@ public class ManagerSystemSQL {
 		String sql = "SELECT * FROM transaction";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()) {
-			Transaction t = new Transaction(rs.getDate(""), rs.getString(""), rs.getString(""), rs.getString(""),
-					rs.getString(""), rs.getDouble(""));
-			tal.add(t);
 		}
 		return tal;
 	}
