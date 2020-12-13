@@ -11,8 +11,8 @@ import java.util.Iterator;
 import Account.Account;
 import Account.CheckingAccount;
 import Account.SavingAccount;
-import CentralSystem.Transaction;
 import Database.DatabaseConnection;
+import TransactionSystem.Transaction;
 
 public class ManagerSystem implements ManagerSystemFunctions{
 	

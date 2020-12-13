@@ -1,6 +1,6 @@
 package Account;
 
-import CentralSystem.Transaction;
+import TransactionSystem.Transaction;
 
 public interface GeneralAccountFunctions {
 	

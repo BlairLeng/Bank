@@ -1,4 +1,4 @@
-package CentralSystem;
+package TransactionSystem;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDateTime;
