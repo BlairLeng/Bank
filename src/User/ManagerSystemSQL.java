@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import CentralSystem.Transaction;
+import TransactionSystem.Transaction;
 
 public class ManagerSystemSQL {
 	

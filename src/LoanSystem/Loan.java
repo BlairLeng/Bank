@@ -1,4 +1,4 @@
-package CentralSystem;
+package LoanSystem;
 
 import java.util.UUID;
 import java.time.LocalDateTime;

@@ -3,7 +3,7 @@ package User;
 import java.util.ArrayList;
 
 import Account.Account;
-import CentralSystem.Transaction;
+import TransactionSystem.Transaction;
 
 public interface ManagerSystemFunctions {
 	

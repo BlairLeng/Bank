@@ -12,7 +12,7 @@ import java.util.Iterator;
 import Account.Account;
 import Account.CheckingAccount;
 import Account.SavingAccount;
-import CentralSystem.Transaction;
+import TransactionSystem.Transaction;
 import Database.DatabaseConnection;
 import Database.DatabaseTables;
 
