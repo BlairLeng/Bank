@@ -1,7 +1,7 @@
 package Account;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class SavingAccount extends Account{
 
@@ -15,7 +15,7 @@ public class SavingAccount extends Account{
 		super(AccountID, type, money, datetime);
 	}
 	
-	public SavingAccount(Date dateTime,String name,double money,String uuid,String type) {
+	public SavingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type) {
 		super(dateTime, name, money, uuid, type);
 	}
 }

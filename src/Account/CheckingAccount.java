@@ -1,6 +1,5 @@
 package Account;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ public class CheckingAccount extends Account{
 		super(AccountID, type, money, datetime);
 	}
 	
-	public CheckingAccount(Date dateTime,String name,double money,String uuid,String type) {
+	public CheckingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type) {
 		super(dateTime, name, money, uuid, type);
 	}
 	
