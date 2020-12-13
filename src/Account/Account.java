@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-public abstract class Account implements GeneralAccountFunctions{
+public class Account implements GeneralAccountFunctions{
 	private LocalDateTime dateTime;
 	private String name;
 	private double money;
