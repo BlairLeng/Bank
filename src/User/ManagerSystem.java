@@ -102,8 +102,9 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<String> al = new ArrayList<String>();
 		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
 		al.add("Transaction report:");
-		double totaltransmoney = 0, totalwithdrawmoney = 0, totaldepositmoney = 0;
-		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0;
+		double totaltransmoney = 0, totalwithdrawmoney = 0, totaldepositmoney = 0, totalloanmoney = 0,
+				totalrecallmoney = 0;
+		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0, totalloantime = 0, totalrecalltime = 0;
 		while (rs.next()) {
 			if (rs.getString("SenderID").equals(rs.getString("ReceiverID"))) {
 				double money = rs.getDouble("Money");
@@ -118,6 +119,16 @@ public class ManagerSystem implements ManagerSystemFunctions {
 				totaltransmoney += rs.getDouble("Money");
 				totaltranstime++;
 			}
+
+			if (rs.getString("SenderID") == null) {
+				totalloanmoney += rs.getDouble("Money");
+				totalloantime++;
+			}
+
+			if (rs.getString("ReceiverID") == null) {
+				totalrecallmoney += rs.getDouble("Money");
+				totalrecalltime++;
+			}
 		}
 		al.add("Total transaction money:" + String.valueOf(totaltransmoney));
 		al.add("Total transaction time:" + String.valueOf(totaltranstime));
@@ -125,25 +136,26 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		al.add("Total withdraw time:" + String.valueOf(totalwithdrawtime));
 		al.add("Total deposit money:" + String.valueOf(totaldepositmoney));
 		al.add("Total deposit time:" + String.valueOf(totaldeposittime));
-
-		// get loan data
-		ResultSet lrs = ManagerSystemSQL.getdayloans(conn, date);
-		al.add("Loan report:");
-		double totalloanmoney = 0,totalrecallmoney=0;
-		int totalloantime = 0;
-		while (lrs.next()) {
-			
-		}
 		al.add("Total loan money:"+String.valueOf(totalloanmoney));
 		al.add("Total loan time:"+String.valueOf(totalloantime));
-		
-		//get recall loan data
-		ResultSet rrs=ManagerSystemSQL.getdayreloans(conn, date);
-		while(rrs.next()) {
-			
-		}
-		al.add("Total recall loan money:"+String.valueOf(totalrecallmoney));
-		
+		al.add("Total recall money:"+String.valueOf(totalrecallmoney));
+		al.add("Total recall time:"+String.valueOf(totalrecalltime));
+
+		// get loan data
+		/*
+		 * ResultSet lrs = ManagerSystemSQL.getdayloans(conn, date);
+		 * al.add("Loan report:"); double totalloanmoney = 0,totalrecallmoney=0; int
+		 * totalloantime = 0; while (lrs.next()) {
+		 * totalloanmoney+=lrs.getDouble("MoneyLoaned"); totalloantime++; }
+		 * al.add("Total loan money:"+String.valueOf(totalloanmoney));
+		 * al.add("Total loan time:"+String.valueOf(totalloantime));
+		 * 
+		 * //get recall loan data ResultSet rrs=ManagerSystemSQL.getdayreloans(conn,
+		 * date); while(rrs.next()) {
+		 * 
+		 * } al.add("Total recall loan money:"+String.valueOf(totalrecallmoney));
+		 */
+
 		return al;
 	}
 

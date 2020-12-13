@@ -64,7 +64,7 @@ public class ManagerSystemSQL {
 	//return loans which is not apporoved
 	public static ResultSet getualoans(Connection conn) throws SQLException{
 		Statement stmt=conn.createStatement();
-		String sql="SELECT * FROM loan WHERE";
+		String sql="SELECT * FROM loan WHERE Status = -1";
 		ResultSet rs=stmt.executeQuery(sql);
 		return rs;
 	}
@@ -72,7 +72,7 @@ public class ManagerSystemSQL {
 	//approve loan
 	public static String approveloan(Connection conn,String loanid) throws SQLException{
 		Statement stmt=conn.createStatement();
-		String sql="UPDATE loan SET =' ' WHERE loan.LoanID = "
+		String sql="UPDATE loan SET Status = 0 WHERE loan.LoanID = "
 				+"'"
 				+loanid
 				+"'";
