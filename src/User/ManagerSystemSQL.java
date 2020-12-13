@@ -10,15 +10,11 @@ import CentralSystem.Transaction;
 
 public class ManagerSystemSQL {
 	
-	public static ArrayList<ResultSet> allaccounts(Connection conn) throws SQLException{
+	public static ResultSet allaccounts(Connection conn) throws SQLException{
 		Statement stmt=conn.createStatement();
-		ArrayList<ResultSet> aal=new ArrayList<ResultSet>();
 		String sql="SELECT * FROM account";
 		ResultSet rs=stmt.executeQuery(sql);
-		if(rs.next()) {
-			aal.add(rs);
-		}
-		return aal;
+		return rs;
 	}
 
 	public static ArrayList<Transaction> alltransactions(Connection conn) throws SQLException {

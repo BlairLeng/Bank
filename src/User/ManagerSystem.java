@@ -33,9 +33,8 @@ public class ManagerSystem implements ManagerSystemFunctions{
 	@Override
 	public ArrayList<Account> Allaccounts() throws Exception{
 		ArrayList<Account> al=new ArrayList<Account>();
-		Iterator<ResultSet> iterator=ManagerSystemSQL.allaccounts(conn).iterator();
-		while(iterator.hasNext()) {
-			ResultSet rs=iterator.next();
+		ResultSet rs=ManagerSystemSQL.allaccounts(conn);
+		while(rs.next()) {
 			if (rs.getString("Type").equals("SavingAccount")) {
 				LocalDate ld = rs.getDate("CreateTime").toLocalDate();
 				LocalTime lt = rs.getTime("CreateTime").toLocalTime();
@@ -65,6 +64,12 @@ public class ManagerSystem implements ManagerSystemFunctions{
 			
 		}
 		return al;
+	}
+	
+	public static void main(String[] args)throws Exception {
+		Connection conn=DatabaseConnection.getConnection();
+		ManagerSystem ms=new ManagerSystem(conn);
+		System.out.print(ms.Allaccounts());
 	}
 	
 }
