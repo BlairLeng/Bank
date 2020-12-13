@@ -21,8 +21,8 @@ public class DatabaseConnection {
 		Statement stmt=con.createStatement();
 		SavingAccount newUser = new SavingAccount("zhang", 1000);
 //
-//		String sql = DatabaseTables.accountTable;
-//		stmt.executeUpdate(sql);
+		String sql = DatabaseTables.transactionTable;
+		stmt.executeUpdate(sql);
 //		String sql = "INSERT INTO `account` "
 //				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
 //				+ "VALUES (" 

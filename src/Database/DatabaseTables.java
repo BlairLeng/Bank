@@ -31,7 +31,7 @@ public class DatabaseTables {
 			"  MoneyReturned DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  InterestRate DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  Completed bit(255) NOT NULL,\r\n" + 
-			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES Account.(AccountID)\r\n" + 
+			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES Account(AccountID),\r\n" + 
 			"  PRIMARY KEY (LoanID)\r\n" + 
 			");";
 	
@@ -42,9 +42,9 @@ public class DatabaseTables {
 			"  ReceiverID varchar(100) NOT NULL,\r\n" + 
 			"  Money DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  Datetime datetime(0) NOT NULL,\r\n" + 
-			"  CONSTRAINT SenderID FOREIGN KEY (AccountID) REFERENCES Account.(AccountID)\r\n" + 
-			"  CONSTRAINT ReceiverID FOREIGN KEY (AccountID) REFERENCES Account.(AccountID)\r\n" + 
-			"  PRIMARY KEY (TransID)\r\n" + 
+			"  PRIMARY KEY (TransID),\r\n" + 
+			"  CONSTRAINT ReceiverID FOREIGN KEY (ReceiverID) REFERENCES account(AccountID),\r\n" + 
+			"  CONSTRAINT SenderID FOREIGN KEY (SenderID) REFERENCES account(AccountID)\r\n" +
 			");";
 }
 	
