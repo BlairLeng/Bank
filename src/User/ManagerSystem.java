@@ -33,9 +33,7 @@ public class ManagerSystem implements ManagerSystemFunctions{
 	@Override
 	public ArrayList<Account> Allaccounts() throws Exception{
 		ArrayList<Account> al=new ArrayList<Account>();
-		ArrayList<ResultSet> ral=new ArrayList<ResultSet>();
-		ral=ManagerSystemSQL.allaccounts(conn);
-		Iterator<ResultSet> iterator=ral.iterator();
+		Iterator<ResultSet> iterator=ManagerSystemSQL.allaccounts(conn).iterator();
 		while(iterator.hasNext()) {
 			ResultSet rs=iterator.next();
 			if (rs.getString("Type").equals("SavingAccount")) {
