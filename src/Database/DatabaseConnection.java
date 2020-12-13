@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import Account.SavingAccount;
 import Database.DatabaseTables;
 import LoginSystem.LoginSystem;
 import User.User;
@@ -16,17 +17,41 @@ public class DatabaseConnection {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-//		Connection con = getConnection();
-//		Statement stmt=con.createStatement();
-//		User testuser = new User("zhang","123","user");
+		Connection con = getConnection();
+		Statement stmt=con.createStatement();
+		SavingAccount newUser = new SavingAccount("zhang", 1000);
 //
-//		String sql = DatabaseTables.userTable;
+//		String sql = DatabaseTables.accountTable;
 //		stmt.executeUpdate(sql);
-//		sql = "INSERT INTO `user` "
-//				+ "(`Username`,`Password`,`Type`) "
-//				+ "VALUES (" + '"' + testuser.getUsername() + '"' +", " + testuser.getPassword()  + ", " + '"' + testuser.getType() + '"' + ")";
-//		System.out.println(sql);
-//		stmt.executeUpdate(sql);
+		String sql = "INSERT INTO `account` "
+				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
+				+ "VALUES (" 
+				+ '"' 
+				+ newUser.getUUID()
+				+ '"' 
+				+ ", " 
+				+ '"' 
+				+ newUser.getCustomerName()
+				+ '"' 
+				+ ", " 
+				+ '"'
+				+ newUser.getType()
+				+ '"'
+				+ ", "  
+				+ newUser.getCurrentBalance()
+				+ ", "
+				+ '"' 
+				+ newUser.getOpenTime()
+				+ '"' 
+				+ ", "
+				+ '"' 
+				+ newUser.getCurrentTime()
+				+ '"' 
+				+ ", " 
+				+ newUser.getCurrentBalance()
+				+ ")";
+		System.out.println(sql);
+		stmt.executeUpdate(sql);
 //		LoginSystem ls = new LoginSystem();
 //		ls.SignupNewUser("li", "123", "user");
 	}

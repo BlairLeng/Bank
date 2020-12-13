@@ -12,6 +12,7 @@ public abstract class Account implements GeneralAccountFunctions{
 	private String name;
 	private double money;
 	private UUID uuid;
+	private String type;
 	
 	public Account(String name, double money){
 		this.name = name;
@@ -20,9 +21,19 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.uuid = UUID.randomUUID();
 	}
 	
+	protected String setType(String type) {
+		return this.type = type;
+	}
+	
 	public String getOpenTime() {
-	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	    String formattedDate = dateTime.format(myFormatObj);
+	    return formattedDate;
+	}
+	
+	public String getCurrentTime() {
+		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = LocalDateTime.now().format(myFormatObj);
 	    return formattedDate;
 	}
 	
@@ -32,6 +43,10 @@ public abstract class Account implements GeneralAccountFunctions{
 	
 	public String getUUID() {
 		return this.uuid.toString();
+	}
+
+	public String getType() {
+		return this.type;
 	}
 	
 	public double getCurrentBalance() {
@@ -58,4 +73,5 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.money -= money;
 		return Common.Success;
 	}
+	
 }
