@@ -134,7 +134,8 @@ public class CustomerPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i = 0;i<tablemodel.getRowCount();i++) {
+		int num = tablemodel.getRowCount();
+		for(int i = num-1; i >= 0; i--) {
 			tablemodel.removeRow(i);
 		}
 		for(int i = 0;i<accounts.size();i++) {
@@ -168,6 +169,7 @@ public class CustomerPage {
 	private void clickenterbutton() {
 		int item = table.getSelectedRow();
 		String uuidString = String.valueOf(tablemodel.getValueAt(item, 0));
-		System.out.print(uuidString);
+		System.out.println(item);
+		System.out.println(uuidString);
 	}
 }
