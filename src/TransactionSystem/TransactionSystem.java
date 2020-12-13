@@ -55,4 +55,25 @@ public class TransactionSystem implements TransactionSystemFunctions{
 		}
 		return al;
 	}
+	
+	@Override
+	public ArrayList<Transaction> AccountTrans(String accountid) throws Exception{
+		ArrayList<Transaction> al=new ArrayList<Transaction>();
+		ResultSet rs=TransactionSystemSQL.viewaccounttrans(accountid, conn);
+		while(rs.next()) {
+			LocalDate ld=rs.getDate("Datetime").toLocalDate();
+			LocalTime lt=rs.getTime("Datetime").toLocalTime();
+			LocalDateTime ldt=LocalDateTime.of(ld, lt);
+			Transaction t=new Transaction(
+					ldt, 
+					rs.getDouble("Money"), 
+					rs.getString("TransName"), 
+					rs.getString("TransID"), 
+					rs.getString("SenderID"), 
+					rs.getString("ReceiverID")
+					);
+			al.add(t);
+		}
+		return al;
+	}
 }

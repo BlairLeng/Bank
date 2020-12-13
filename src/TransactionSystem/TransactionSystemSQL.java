@@ -34,4 +34,18 @@ public class TransactionSystemSQL {
 		return rs;
 	}
 	
+	public static ResultSet viewaccounttrans(String accountid,Connection conn) throws SQLException{
+		Statement stmt=conn.createStatement();
+		String sql="SELECT * FROM trans WHERE SenderID = "
+				+"'"
+				+accountid
+				+"'"
+				+"OR ReceiverID="
+				+"'"
+				+accountid
+				+"'";
+		ResultSet rs=stmt.executeQuery(sql);
+		return rs;
+	}
+	
 }
