@@ -2,6 +2,7 @@ package User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,8 +12,9 @@ import java.util.Iterator;
 import Account.Account;
 import Account.CheckingAccount;
 import Account.SavingAccount;
+import CentralSystem.Transaction;
 import Database.DatabaseConnection;
-import TransactionSystem.Transaction;
+import Database.DatabaseTables;
 
 public class ManagerSystem implements ManagerSystemFunctions{
 	
@@ -66,24 +68,5 @@ public class ManagerSystem implements ManagerSystemFunctions{
 		return al;
 	}
 	
-	public static void main(String[] args)throws Exception {
-		Connection conn=DatabaseConnection.getConnection();
-		ManagerSystem ms=new ManagerSystem(conn);
-		System.out.print(ms.Allaccounts());
-	}
-
-
-	@Override
-	public ArrayList<CheckingAccount> Allcheckaccounts() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public ArrayList<SavingAccount> Allsaveaccounts() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
