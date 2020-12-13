@@ -23,35 +23,35 @@ public class DatabaseConnection {
 //
 //		String sql = DatabaseTables.accountTable;
 //		stmt.executeUpdate(sql);
-		String sql = "INSERT INTO `account` "
-				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
-				+ "VALUES (" 
-				+ '"' 
-				+ newUser.getUUID()
-				+ '"' 
-				+ ", " 
-				+ '"' 
-				+ newUser.getCustomerName()
-				+ '"' 
-				+ ", " 
-				+ '"'
-				+ newUser.getType()
-				+ '"'
-				+ ", "  
-				+ newUser.getCurrentBalance()
-				+ ", "
-				+ '"' 
-				+ newUser.getOpenTime()
-				+ '"' 
-				+ ", "
-				+ '"' 
-				+ newUser.getCurrentTime()
-				+ '"' 
-				+ ", " 
-				+ newUser.getCurrentBalance()
-				+ ")";
-		System.out.println(sql);
-		stmt.executeUpdate(sql);
+//		String sql = "INSERT INTO `account` "
+//				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
+//				+ "VALUES (" 
+//				+ '"' 
+//				+ newUser.getUUID()
+//				+ '"' 
+//				+ ", " 
+//				+ '"' 
+//				+ newUser.getCustomerName()
+//				+ '"' 
+//				+ ", " 
+//				+ '"'
+//				+ newUser.getType()
+//				+ '"'
+//				+ ", "  
+//				+ newUser.getCurrentBalance()
+//				+ ", "
+//				+ '"' 
+//				+ newUser.getOpenTime()
+//				+ '"' 
+//				+ ", "
+//				+ '"' 
+//				+ newUser.getCurrentTime()
+//				+ '"' 
+//				+ ", " 
+//				+ newUser.getCurrentBalance()
+//				+ ")";
+//		System.out.println(sql);
+//		stmt.executeUpdate(sql);
 //		LoginSystem ls = new LoginSystem();
 //		ls.SignupNewUser("li", "123", "user");
 	}

@@ -1,7 +1,10 @@
 package User;
 
 import java.sql.Connection;
-
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import Account.*;
@@ -35,7 +38,35 @@ public class UserSystem implements UserSystemFunctions{
 	@Override
 	public ArrayList<Account> ViewAccounts(String username) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		ResultSet rs = UserSystemSQL.ViewAccounts(username, con);
+		ArrayList<Account> curList = new ArrayList<Account>();
+		while (rs.next()) {
+			if (rs.getString("Type").equals("SavingAccount")) {
+				LocalDate ld = rs.getDate("CreateTime").toLocalDate();
+				LocalTime lt = rs.getTime("CreateTime").toLocalTime();
+				LocalDateTime ldt = LocalDateTime.of(ld, lt);
+				SavingAccount sa = new SavingAccount(
+						rs.getString("AccountID"),
+						rs.getString("Type"),
+						rs.getDouble("CurrentBalance"),
+						ldt
+						);
+				curList.add(sa);
+			}
+			if (rs.getString("Type").equals("CheckingAccount")) {
+				LocalDate ld = rs.getDate("CreateTime").toLocalDate();
+				LocalTime lt = rs.getTime("CreateTime").toLocalTime();
+				LocalDateTime ldt = LocalDateTime.of(ld, lt);
+				CheckingAccount ca = new CheckingAccount(
+						rs.getString("AccountID"),
+						rs.getString("Type"),
+						rs.getDouble("CurrentBalance"),
+						ldt
+						);
+				curList.add(ca);
+			}
+		}
+		return curList;
 	}
 
 	

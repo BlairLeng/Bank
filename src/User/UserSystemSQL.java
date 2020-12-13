@@ -1,6 +1,7 @@
 package User;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -76,6 +77,16 @@ public class UserSystemSQL {
 				+ ")";
 		stmt.executeUpdate(sql);
 		return Common.Success;
+	}
+	
+	public static ResultSet ViewAccounts(String username, Connection con) throws SQLException {
+		Statement stmt=con.createStatement();
+		String sql = "SELECT * FROM account WHERE username = "
+					+ "'"
+					+ username
+					+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		return rs;
 	}
 	
 	
