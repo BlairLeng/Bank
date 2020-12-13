@@ -1,6 +1,8 @@
 package gui;
 import LoginSystem.LoginSystem;
+import User.ManagerSystem;
 import User.User;
+import User.UserSystem;
 
 import java.awt.EventQueue;
 
@@ -18,20 +20,24 @@ import java.sql.Connection;
 import Database.DatabaseConnection;
 
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.JPasswordField;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginPage {
 
 	private JFrame frmBank;
 	private JTextField userField;
 	private JPasswordField pswField;
+	JRadioButton customerJRadioButton;
+	JRadioButton manageJRadioButton;
 	private LoginSystem loginSystem;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -79,6 +85,14 @@ public class LoginPage {
 		frmBank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBank.getContentPane().setLayout(null);
 		
+		int windowWidth = frmBank.getWidth();
+		int windowHeight = frmBank.getHeight();
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = kit.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		frmBank.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
+		
 		JLabel userJLabel = new JLabel("User:");
 		userJLabel.setFont(new Font("宋体", Font.BOLD, 16));
 		userJLabel.setBounds(40, 20, 80, 25);
@@ -95,16 +109,22 @@ public class LoginPage {
 		userField.setColumns(10);
 		
 		pswField = new JPasswordField();
+		pswField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clickloginbutton();
+			}
+		});
 		pswField.setBounds(120, 65, 180, 25);
 		frmBank.getContentPane().add(pswField);
 		
-		JRadioButton customerJRadioButton = new JRadioButton("Customer",true);
+		customerJRadioButton = new JRadioButton("Customer",true);
 		buttonGroup.add(customerJRadioButton);
 		customerJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
 		customerJRadioButton.setBounds(40, 110, 100, 25);
+		
 		frmBank.getContentPane().add(customerJRadioButton);
 		
-		JRadioButton manageJRadioButton = new JRadioButton("Manager");
+		manageJRadioButton = new JRadioButton("Manager");
 		buttonGroup.add(manageJRadioButton);
 		manageJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
 		manageJRadioButton.setBounds(40, 155, 100, 25);
@@ -114,16 +134,7 @@ public class LoginPage {
 		loginJButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(customerJRadioButton.isSelected()) {
-
-					String string = loginAsCustomer(userField.getText(), new String(pswField.getPassword()));
-					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
-				}else {
-
-					String string = loginAsManager(userField.getText(), new String(pswField.getPassword()));
-					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsManager Info",JOptionPane.WARNING_MESSAGE);
-				}
-				
+				clickloginbutton();
 			}
 		});
 		loginJButton.setFont(new Font("宋体", Font.PLAIN, 16));
@@ -134,21 +145,44 @@ public class LoginPage {
 		signupJButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(customerJRadioButton.isSelected()) {
-
-					String string = signup(userField.getText(), new String(pswField.getPassword()), "Customer");
-					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
-				}else {
-
-					String string = signup(userField.getText(), new String(pswField.getPassword()), "Manager");
-					JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsManager Info",JOptionPane.WARNING_MESSAGE);
-				}
+				clicksignupbutton();
 			}
 		});
 		signupJButton.setFont(new Font("宋体", Font.PLAIN, 16));
 		signupJButton.setBounds(180, 155, 100, 25);
 		frmBank.getContentPane().add(signupJButton);
 	}
+	private void clickloginbutton() {
+		if(customerJRadioButton.isSelected()) {
+			String string = loginAsCustomer(userField.getText(), new String(pswField.getPassword()));
+			if(string.equals(Common.Success)) {
+				new CustomerPage(userField.getText(),new UserSystem(this.loginSystem.con));
+				closeThis();
+			}else {
+				JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
+			}
+		}else {
+			String string = loginAsManager(userField.getText(), new String(pswField.getPassword()));
+			if(string.equals(Common.Success)) {
+				new ManagerPage(userField.getText(),new ManagerSystem(this.loginSystem.con));
+				closeThis();
+			}else {
+				JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "LoginAsManager Info",JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+	private void clicksignupbutton() {
+		if(customerJRadioButton.isSelected()) {
+
+			String string = signup(userField.getText(), new String(pswField.getPassword()), "user");
+			JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsCustomer Info",JOptionPane.WARNING_MESSAGE); 
+		}else {
+
+			String string = signup(userField.getText(), new String(pswField.getPassword()), "manager");
+			JOptionPane.showMessageDialog(frmBank.getContentPane(), string, "SignUpAsManager Info",JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
 	private String loginAsCustomer(String username,String psw) {
 		String result = Common.Failed;
 		try {
@@ -175,5 +209,8 @@ public class LoginPage {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	private void closeThis() {
+		frmBank.dispose();
 	}
 }
