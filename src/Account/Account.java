@@ -15,6 +15,7 @@ public abstract class Account implements GeneralAccountFunctions{
 	private String name;
 	private double money;
 	private UUID uuid;
+	private String uuidString;
 	private String type;
 	
 	public Account(String name, double money){
@@ -22,6 +23,14 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.money = money;
 		this.dateTime = LocalDateTime.now();
 		this.uuid = UUID.randomUUID();
+		this.uuidString = this.uuid.toString();
+	}
+	
+	public Account(String AccountID, String type, double balance, LocalDateTime dateTime) {
+		this.uuidString = AccountID;
+		this.type = type;
+		this.money = balance;
+		this.dateTime = dateTime;
 	}
 	
 	public Account(Date dateTime,String name,double money,String uuid,String type) {
@@ -55,7 +64,7 @@ public abstract class Account implements GeneralAccountFunctions{
 	}
 	
 	public String getUUID() {
-		return this.uuid.toString();
+		return this.uuidString;
 	}
 
 	public String getType() {
@@ -85,6 +94,10 @@ public abstract class Account implements GeneralAccountFunctions{
 		}
 		this.money -= money;
 		return Common.Success;
+	}
+	
+	public String toString() {
+		return "\n" + this.uuidString + "\n" + this.getType() + "\n" + this.getCurrentBalance() + "\n" + this.getOpenTime() + "\n";
 	}
 	
 }

@@ -10,6 +10,10 @@ public class SavingAccount extends Account{
 		// TODO Auto-generated constructor stub
 		this.setType("SavingAccount");
 	}
+
+	public SavingAccount(String AccountID, String type, double money, LocalDateTime datetime) {
+		super(AccountID, type, money, datetime);
+	}
 	
 	public SavingAccount(Date dateTime,String name,double money,String uuid,String type) {
 		super(dateTime, name, money, uuid, type);
