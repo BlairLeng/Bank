@@ -25,8 +25,8 @@ public class DatabaseTables {
 			"  LoanName varchar(100),\r\n" +
 			"  LoanReason varchar(100),\r\n" +
 			"  AccountID varchar(100) NOT NULL,\r\n" + 
-			"  BeginDatatime datetime(0) NOT NULL,\r\n" + 
-			"  EndDatatime datetime(0) NOT NULL,\r\n" +
+			"  BeginDatetime datetime(0) NOT NULL,\r\n" + 
+			"  EndDatetime datetime(0) NOT NULL,\r\n" +
 			"  MoneyOwed DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  MoneyLoaned DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  MoneyReturned DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 

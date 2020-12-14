@@ -15,8 +15,9 @@ public class Loan {
 	private double moneyOwed;
 	private double interestRate;
 	private int Status;
-	
-	public Loan(String AccountID, double moneyLoaned, double moneyOwed, int daysLoaned, double interestRate, String loanName, String loanReason) {
+
+	public Loan(String AccountID, double moneyLoaned, double moneyOwed, int daysLoaned, double interestRate,
+			String loanName, String loanReason) {
 		this.AccountID = AccountID;
 		this.moneyLoaned = moneyLoaned * Math.pow(interestRate, daysLoaned);
 		this.interestRate = interestRate;
@@ -29,5 +30,18 @@ public class Loan {
 		this.moneyReturned = 0;
 		this.Status = 0;
 	}
-	
+
+	public Loan(String AccountID, String LoanName, String LoanReason, LocalDateTime beginTime, LocalDateTime endTime,
+			double moneyLoaned, double moneyReturned, double moneyOwed, double interestRate, int Status) {
+		this.AccountID=AccountID;
+		this.LoanName=LoanName;
+		this.LoanReason=LoanReason;
+		this.beginTime=beginTime;
+		this.endTime=endTime;
+		this.moneyLoaned=moneyLoaned;
+		this.moneyReturned=moneyReturned;
+		this.moneyOwed=moneyOwed;
+		this.interestRate=interestRate;
+		this.Status=Status;
+	}
 }
