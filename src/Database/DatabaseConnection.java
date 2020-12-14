@@ -19,7 +19,7 @@ public class DatabaseConnection {
 		// TODO Auto-generated method stub
 		Connection con = getConnection();
 		Statement stmt=con.createStatement();
-		SavingAccount newUser = new SavingAccount("zhang", 1000);
+//		SavingAccount newUser = new SavingAccount("zhang", 1000);
 //
 		String sql = DatabaseTables.loanTable;
 		stmt.executeUpdate(sql);

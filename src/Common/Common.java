@@ -19,4 +19,8 @@ public class Common {
 	public static final String TransName_Repay="Repayment";
 	public static final String TransName_trans="Common Transaction";
 	public static final String TransName_ServiceFee="Service Fee";
+	
+	public static final String CurrencyType_USD = "USD";
+	public static final String CurrencyType_EUR = "EUR";
+	public static final String CurrencyType_RMB = "RMB";
 }

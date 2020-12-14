@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class SavingAccount extends Account{
 
-	public SavingAccount(String name, double money) {
-		super(name, money);
+	public SavingAccount(String name, double money, String currencyType) {
+		super(name, money, currencyType);
 		// TODO Auto-generated constructor stub
 		this.setType("SavingAccount");
 	}

@@ -20,17 +20,17 @@ public class UserSystem implements UserSystemFunctions{
 	}
 
 	@Override
-	public String CreateSavingAccount(String username, double money) throws Exception {
+	public String CreateSavingAccount(String username, double money, String currencyType) throws Exception {
 		// TODO Auto-generated method stub
-		SavingAccount newAccount = new SavingAccount(username, money);
+		SavingAccount newAccount = new SavingAccount(username, money, currencyType);
 		UserSystemSQL.CreateSavingAccount(newAccount, con);
 		return Common.Success;
 	}
 
 	@Override
-	public String CreateCheckingAccount(String username, double money) throws Exception {
+	public String CreateCheckingAccount(String username, double money, String currencyType) throws Exception {
 		// TODO Auto-generated method stub
-		CheckingAccount newAccount = new CheckingAccount(username, money);
+		CheckingAccount newAccount = new CheckingAccount(username, money, currencyType);
 		UserSystemSQL.CreateCheckingAccount(newAccount, con);
 		return Common.Success;
 	}
