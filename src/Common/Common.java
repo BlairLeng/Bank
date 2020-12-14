@@ -12,4 +12,10 @@ public class Common {
 	public static final String InvalidUsername = "This is an INVALID username!";
 	
 	public static final String UsernameAlreadyExists = "Username already exists!";
+	
+	public static final String TransName_Withdraw="Withdraw";
+	public static final String TransName_Deposit="Deposit";
+	public static final String TransName_Loan="Loan";
+	public static final String TransName_Repay="Repayment";
+	public static final String TransName_trans="Common Transaction";
 }
