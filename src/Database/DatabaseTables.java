@@ -47,5 +47,31 @@ public class DatabaseTables {
 			"  CONSTRAINT ReceiverID FOREIGN KEY (ReceiverID) REFERENCES account(AccountID),\r\n" + 
 			"  CONSTRAINT SenderID FOREIGN KEY (SenderID) REFERENCES account(AccountID)\r\n" +
 			");";
+	
+	public static final String stockTable = "CREATE TABLE IF NOT EXISTS Stocks (\r\n"+
+	        "  StockID varchar(100) NOT NULL,\r\n" + 
+			"  StockName varchar(100) NOT NULL,\r\n" +
+	        "  Price DOUBLE PRECISION(20, 4) NOT NULL,\r\n"+
+			"  PRIMARY KEY (StockID)\r\n"+
+	        "  );";
+	
+	public static final String stocktransTable = "CREATE TABLE IF NOT EXISTS Stocktrans (\r\n" +
+			"  TransID varchar(100) NOT NULL,\r\n" + 
+			"  TransName varchar(100) NOT NULL,\r\n" +
+			"  StockID varchar(100) NOT NULL,\r\n" +
+	        "  Price DOUBLE PRECISION(20, 4) NOT NULL,\r\n" +
+			"  Amount int(10) NOT NULL,\r\n" +
+			"  PRIMARY KEY (TransID),\r\n" +
+			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID)\r\n" +
+	        " );";
+	
+	public static final String accountstockTable = "CREATE TABLE IF NOT EXISTS Accountstock (\r\n" +
+			"  AccountID varchar(100) NOT NULL,\r\n" + 
+			"  StockID varchar(100) NOT NULL,\r\n" +
+			"  Amount int(10) NOT NULL,\r\n" +
+			"  PRIMARY KEY (AccountID,StockID),\r\n" +
+			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
+			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
+	        " );";
 }
 	
