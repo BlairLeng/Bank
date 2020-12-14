@@ -22,5 +22,5 @@ public class Common {
 	
 	public static final String CurrencyType_USD = "USD";
 	public static final String CurrencyType_EUR = "EUR";
-	public static final String CurrencyType_RMB = "RMB";
+	public static final String CurrencyType_CNY = "CNY";
 }
