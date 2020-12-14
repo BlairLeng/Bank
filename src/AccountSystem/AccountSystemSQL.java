@@ -57,8 +57,11 @@ public class AccountSystemSQL {
 				+ AccountID
 				+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
-		if (money >= rs.getDouble("CurrentBalance")) {
-			return Common.Success;
+		if (rs.next()) {
+			double temp = rs.getDouble("CurrentBalance");
+			if (money < temp) {
+				return Common.Success;
+			}
 		}
 		return Common.NotEnoughMoney;
 	}
@@ -69,7 +72,7 @@ public class AccountSystemSQL {
 				+ "(`TransID`,`TransName`,`SenderID`,`ReceiverID`,`Money`,`Datetime`) "
 				+ "VALUES (" 
 				+ '"' 
-				+ t.getTransTime() 
+				+ t.gettransUUID() 
 				+ '"' 
 				+ ", " 
 				+ '"'
@@ -87,21 +90,35 @@ public class AccountSystemSQL {
 				+ t.getmoney() 
 				+ ", " 
 				+ '"' 
-				+ t.gettransUUID()
+				+ t.getTransTime()
 				+ '"' 
 				+ ")";
-		ResultSet rs = stmt.executeQuery(sql);
+		int rs = stmt.executeUpdate(sql);
+		double totalMoney = getMoney(t.getsenderUUID(),con) - t.getmoney();
+		sql = "UPDATE `account` "
+				+ "SET account.CurrentBalance = "
+				+ totalMoney
+				+ " "
+				+ "WHERE account.AccountID = "
+				+ '"'
+				+ t.getreceiverUUID()
+				+ '"';
+		Boolean rs1 = stmt.execute(sql);
 		return Common.Success;
 	}
 	
 	public static double getMoney(String AccountID, Connection con) throws SQLException {
+		double money = 0;
 		Statement stmt = con.createStatement();
 		String sql = "SELECT * FROM account WHERE AccountID = "
 				+ "'"
 				+ AccountID
 				+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
-		return rs.getDouble("CurrentBalance");
+		if (rs.next()) {
+			money = rs.getDouble("CurrentBalance");
+		}
+		return money;
 	}
 	
 	public static String MakeTransaction(Transaction t, Connection con) throws SQLException {
@@ -110,7 +127,7 @@ public class AccountSystemSQL {
 				+ "(`TransID`,`TransName`,`SenderID`,`ReceiverID`,`Money`,`Datetime`) "
 				+ "VALUES (" 
 				+ '"' 
-				+ t.getTransTime() 
+				+ t.gettransUUID() 
 				+ '"' 
 				+ ", " 
 				+ '"'
@@ -128,26 +145,30 @@ public class AccountSystemSQL {
 				+ t.getmoney() 
 				+ ", " 
 				+ '"' 
-				+ t.gettransUUID()
+				+ t.getTransTime()
 				+ '"' 
 				+ ")";
-		ResultSet rs = stmt.executeQuery(sql);
+		int rs = stmt.executeUpdate(sql);
 		double receiverMoney = getMoney(t.getreceiverUUID(),con) + t.getmoney();
 		double senderMoney = getMoney(t.getsenderUUID(),con) - t.getmoney();
 		sql = "UPDATE account "
 				+ "SET CurrentBalance = "
 				+ receiverMoney
-				+ ", "
+				+ " "
 				+ "WHERE AccountID = "
-				+ t.getreceiverUUID();
-		ResultSet rs1 = stmt.executeQuery(sql);
+				+ '"'
+				+ t.getreceiverUUID()
+				+ '"';
+		Boolean rs1 = stmt.execute(sql);
 		sql = "UPDATE account "
 				+ "SET CurrentBalance = "
 				+ senderMoney
-				+ ", "
+				+ " "
 				+ "WHERE AccountID = "
-				+ t.getsenderUUID();
-		ResultSet rs2 = stmt.executeQuery(sql);
+				+ '"'
+				+ t.getsenderUUID()
+				+ '"';
+		Boolean rs2 = stmt.execute(sql);
 		return Common.Success;
 	}
 	
@@ -157,7 +178,7 @@ public class AccountSystemSQL {
 				+ "(`TransID`,`TransName`,`SenderID`,`ReceiverID`,`Money`,`Datetime`) "
 				+ "VALUES (" 
 				+ '"' 
-				+ t.getTransTime() 
+				+ t.gettransUUID()
 				+ '"' 
 				+ ", " 
 				+ '"'
@@ -175,18 +196,20 @@ public class AccountSystemSQL {
 				+ t.getmoney() 
 				+ ", " 
 				+ '"' 
-				+ t.gettransUUID()
+				+ t.getTransTime() 
 				+ '"' 
 				+ ")";
-		ResultSet rs = stmt.executeQuery(sql);
+		int rs = stmt.executeUpdate(sql);
 		double totalmoney = getMoney(t.getreceiverUUID(),con) + t.getmoney();
 		sql = "UPDATE account "
 				+ "SET CurrentBalance = "
 				+ totalmoney
-				+ ", "
+				+ " "
 				+ "WHERE AccountID = "
-				+ t.getreceiverUUID();
-		ResultSet rs1 = stmt.executeQuery(sql);
+				+ '"'
+				+ t.getreceiverUUID()
+				+ '"'; 
+		Boolean rs1 = stmt.execute(sql);
 		return Common.Success;
 	}
 	
@@ -196,7 +219,7 @@ public class AccountSystemSQL {
 				+ "(`TransID`,`TransName`,`SenderID`,`ReceiverID`,`Money`,`Datetime`) "
 				+ "VALUES (" 
 				+ '"' 
-				+ t.getTransTime() 
+				+ t.gettransUUID() 
 				+ '"' 
 				+ ", " 
 				+ '"'
@@ -214,18 +237,20 @@ public class AccountSystemSQL {
 				+ t.getmoney() 
 				+ ", " 
 				+ '"' 
-				+ t.gettransUUID()
+				+ t.getTransTime()
 				+ '"' 
 				+ ")";
-		ResultSet rs = stmt.executeQuery(sql);
-		double totalmoney = getMoney(t.getreceiverUUID(),con) - t.getmoney();
-		sql = "UPDATE account "
-				+ "SET CurrentBalance = "
-				+ totalmoney
-				+ ", "
-				+ "WHERE AccountID = "
-				+ t.getreceiverUUID();
-		ResultSet rs1 = stmt.executeQuery(sql);
+		int rs = stmt.executeUpdate(sql);
+		double totalMoney = getMoney(t.getreceiverUUID(),con) - t.getmoney();
+		sql = "UPDATE `account` "
+				+ "SET account.CurrentBalance = "
+				+ totalMoney
+				+ " "
+				+ "WHERE account.AccountID = "
+				+ '"'
+				+ t.getreceiverUUID()
+				+ '"';
+		Boolean rs1 = stmt.execute(sql);
 		return Common.Success;
 	}
 	

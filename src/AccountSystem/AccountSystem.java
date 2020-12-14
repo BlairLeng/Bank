@@ -104,7 +104,7 @@ public class AccountSystem implements AccountSystemFunctions{
 		String result;
 		result = AccountSystemSQL.checkMoney(AccountID, money+Common.ServiceFee, con);
 		if (result != Common.Success) return result;
-		Transaction t = new Transaction(LocalDateTime.now(), money, "Withdraw", UUID.randomUUID().toString(), AccountID, AccountID);
+		Transaction t = new Transaction(LocalDateTime.now(), money, Common.TransName_Withdraw, UUID.randomUUID().toString(), AccountID, AccountID);
 		result = AccountSystemSQL.Withdraw(t, con);
 		Transaction serviceFee = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), AccountID, AccountID);
 		result = AccountSystemSQL.TakeServiceFee(serviceFee, con);
