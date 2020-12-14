@@ -26,7 +26,6 @@ public class DepositWithdrew {
 	private JFrame frame;
 	private AccountPage accountPage;
 	private String type;
-	private String uuid;
 	private JTextField moneyField;
 
 	/**
@@ -37,7 +36,7 @@ public class DepositWithdrew {
 			public void run() {
 				try {
 					Connection con = DatabaseConnection.getConnection();
-					DepositWithdrew window = new DepositWithdrew(new AccountPage("Bill","Customer",new AccountSystem(con),"0c936cc0-864b-4c53-afa6-5f6e7edc94bc"),"Deposit","0c936cc0-864b-4c53-afa6-5f6e7edc94bc");
+					DepositWithdrew window = new DepositWithdrew(new AccountPage("Bill","Customer",new AccountSystem(con),"0c936cc0-864b-4c53-afa6-5f6e7edc94bc"),"Deposit");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,10 +47,9 @@ public class DepositWithdrew {
 	/**
 	 * Create the application.
 	 */
-	public DepositWithdrew(AccountPage accountPage,String type,String uuid) {
+	public DepositWithdrew(AccountPage accountPage,String type) {
 		this.accountPage = accountPage;
 		this.type = type;
-		this.uuid = uuid;
 		if(this.type.equals("Deposit")) {
 			initialize_asDeposit();
 			frame.setVisible(true);
@@ -172,9 +170,9 @@ public class DepositWithdrew {
 			Double money = Double.valueOf(moneyString);
 			String result = new String();
 			if(this.type.equals("Deposit")) {
-				result = this.accountPage.Deposit(this.uuid, money.doubleValue());
+				result = this.accountPage.Deposit(money.doubleValue());
 			}else if(this.type.equals("Withdrew")) {
-				result = this.accountPage.Withdrew(this.uuid, money.doubleValue());
+				result = this.accountPage.Withdrew(money.doubleValue());
 			}
 			if(result.equals(Common.Success)) {
 				JOptionPane.showMessageDialog(frame.getContentPane(), result, "Opration Info",JOptionPane.WARNING_MESSAGE); 

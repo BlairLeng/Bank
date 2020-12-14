@@ -5,15 +5,17 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JButton;
-import javax.swing.SwingConstants;
 
 import Account.Account;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import AccountSystem.AccountSystem;
@@ -26,10 +28,7 @@ import java.awt.event.MouseEvent;
 public class AccountPage {
 
 	private JFrame frmAccount;
-	private String username;
 	private AccountSystem accountSystem;
-	private ManagerSystem managerSystem;
-	private String type;
 	private String uuid;
 	private JLabel idField;
 	private JLabel typeField;
@@ -58,17 +57,15 @@ public class AccountPage {
 	 * Create the application.
 	 */
 	public AccountPage(String name, String type,AccountSystem accountSystem,String uuid) {
-		this.username = name;
-		this.type = type;
 		this.uuid = uuid;
 		this.accountSystem = accountSystem;
-		this.managerSystem = null;
 		if(type.equals("Customer")) {
 			initialize_asCustomer();
 		}
 		else if(type.equals("Manager")) {
 			initialize_asManager();
 		}
+		ServiceFee();
 		refreshInfo();
 		frmAccount.setVisible(true);
 
@@ -333,14 +330,24 @@ public class AccountPage {
 			this.timeField.setText(account.getOpenTime());
 		}
 	}
+	
+	private void ServiceFee() {
+		String resultString = new String();
+		try {
+			resultString = this.accountSystem.ServiceFee(this.uuid);
+		}catch(SQLException e) {
+			JOptionPane.showMessageDialog(this.frmAccount.getContentPane(), String.valueOf(e), "Warning",JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
 	private void clickDepositbutton() {
-		new DepositWithdrew(this,"Deposit",this.uuid);
+		new DepositWithdrew(this,"Deposit");
 	}
 	private void clickWithdrewbutton() {
-		new DepositWithdrew(this,"Withdrew",this.uuid);
+		new DepositWithdrew(this,"Withdrew");
 	}
 	private void clickSendbutton() {
-	
+		new SendPage(this);
 	}
 	private void clickTransbutton() {
 	
@@ -351,19 +358,29 @@ public class AccountPage {
 	private void clickLoanInfobutton() {
 		
 	}
-	public String Deposit(String uuid,double money) {
+	
+	public String Deposit(double money) {
 		String resultString = new String();
 		try {
-			resultString = this.accountSystem.Deposit(uuid, money);
+			resultString = this.accountSystem.Deposit(this.uuid, money);
 		}catch (Exception e) {
 			return String.valueOf(e);
 		}
 		return resultString;
 	}
-	public String Withdrew(String uuid,double money) {
+	public String Withdrew(double money) {
 		String resultString = new String();
 		try {
-			resultString = this.accountSystem.Withdraw(uuid, money);
+			resultString = this.accountSystem.Withdraw(this.uuid, money);
+		}catch (Exception e) {
+			return String.valueOf(e);
+		}
+		return resultString;
+	}
+	public String Transaction(String receiverID,double money,String transName) {
+		String resultString = new String();
+		try {
+			resultString = this.accountSystem.MakeTransaction(this.uuid, receiverID, money, transName);
 		}catch (Exception e) {
 			return String.valueOf(e);
 		}
