@@ -15,4 +15,11 @@ public interface AccountSystemFunctions<Account> {
 	public String Deposit(String AccountID, double money) throws SQLException;
 	// withdraw
 	public String Withdraw(String AccountID, double money) throws SQLException;
+	// open and close fee
+	
+	// saving account link to security
+	
+	// transaction to security
+	
+	
 }

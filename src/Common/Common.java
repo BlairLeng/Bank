@@ -18,4 +18,5 @@ public class Common {
 	public static final String TransName_Loan="Loan";
 	public static final String TransName_Repay="Repayment";
 	public static final String TransName_trans="Common Transaction";
+	public static final String TransName_ServiceFee="Service Fee";
 }
