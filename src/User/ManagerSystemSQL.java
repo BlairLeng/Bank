@@ -7,11 +7,9 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import com.sun.xml.internal.bind.Locatable;
 
 import Common.Common;
 import TransactionSystem.Transaction;
-import sun.launcher.resources.launcher;
 
 public class ManagerSystemSQL {
 	
