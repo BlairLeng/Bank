@@ -69,7 +69,7 @@ public class AccountSystemSQL {
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()) {
 			double temp = rs.getDouble("CurrentBalance");
-			if (money < temp) {
+			if (money <= temp) {
 				return Common.Success;
 			}
 		}
