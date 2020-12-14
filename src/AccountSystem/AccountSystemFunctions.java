@@ -16,7 +16,7 @@ public interface AccountSystemFunctions<Account> {
 	// withdraw
 	public String Withdraw(String AccountID, double money) throws SQLException;
 	// open and close fee
-	
+	public String ServiceFee(String AccountID) throws SQLException;
 	// saving account link to security
 	
 	// transaction to security

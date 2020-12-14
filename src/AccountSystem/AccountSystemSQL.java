@@ -21,6 +21,17 @@ public class AccountSystemSQL {
 		return rs;
 	}
 	
+	public static String getAccountType(String AccountID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM account WHERE AccountID = "
+				+ "'"
+				+ AccountID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		String AccountType = rs.getString("Type");
+		return AccountType;
+	}
+	
 	public static String checkCurrency(String AID1, String AID2, Connection con) throws SQLException {
 		Statement stmt = con.createStatement();
 		String sql = "SELECT * FROM account WHERE AccountID = "
@@ -36,7 +47,7 @@ public class AccountSystemSQL {
 		if (rs1.getString("CurrencyType").equals(rs2.getString("CurrencyType"))) {
 			return Common.Success;
 		}
-		return Common.Failed;
+		return Common.TypeDifference;
 	}
 	
 	public static String checkMoney(String AccountID, double money, Connection con) throws SQLException{
@@ -49,7 +60,48 @@ public class AccountSystemSQL {
 		if (money >= rs.getDouble("CurrentBalance")) {
 			return Common.Success;
 		}
-		return Common.Failed;
+		return Common.NotEnoughMoney;
+	}
+	
+	public static String TakeServiceFee(Transaction t, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "INSERT INTO `trans` "
+				+ "(`TransID`,`TransName`,`SenderID`,`ReceiverID`,`Money`,`Datetime`) "
+				+ "VALUES (" 
+				+ '"' 
+				+ t.getTransTime() 
+				+ '"' 
+				+ ", " 
+				+ '"'
+				+ t.gettransname()  
+				+ '"'
+				+ ", " 
+				+ '"' 
+				+ t.getsenderUUID() 
+				+ '"' 
+				+ ", " 
+				+ '"' 
+				+ t.getreceiverUUID() 
+				+ '"' 
+				+ ", "  
+				+ t.getmoney() 
+				+ ", " 
+				+ '"' 
+				+ t.gettransUUID()
+				+ '"' 
+				+ ")";
+		ResultSet rs = stmt.executeQuery(sql);
+		return Common.Success;
+	}
+	
+	public static double getMoney(String AccountID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM account WHERE AccountID = "
+				+ "'"
+				+ AccountID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		return rs.getDouble("CurrentBalance");
 	}
 	
 	public static String MakeTransaction(Transaction t, Connection con) throws SQLException {
@@ -80,6 +132,22 @@ public class AccountSystemSQL {
 				+ '"' 
 				+ ")";
 		ResultSet rs = stmt.executeQuery(sql);
+		double receiverMoney = getMoney(t.getreceiverUUID(),con) + t.getmoney();
+		double senderMoney = getMoney(t.getsenderUUID(),con) - t.getmoney();
+		sql = "UPDATE account "
+				+ "SET CurrentBalance = "
+				+ receiverMoney
+				+ ", "
+				+ "WHERE AccountID = "
+				+ t.getreceiverUUID();
+		ResultSet rs1 = stmt.executeQuery(sql);
+		sql = "UPDATE account "
+				+ "SET CurrentBalance = "
+				+ senderMoney
+				+ ", "
+				+ "WHERE AccountID = "
+				+ t.getsenderUUID();
+		ResultSet rs2 = stmt.executeQuery(sql);
 		return Common.Success;
 	}
 	

@@ -70,8 +70,21 @@ public class AccountSystem implements AccountSystemFunctions{
 		// TODO Auto-generated method stub
 		String result;
 		result = AccountSystemSQL.checkCurrency(senderID, receiverID, con);
-		if (result == Common.Success) {			
+		if (result != Common.Success) return result;
+		result = AccountSystemSQL.getAccountType(senderID, con);
+		// if the account is a checking account
+		if (result.equals("CheckingAccount")) {			
+			result = AccountSystemSQL.checkMoney(senderID, money+Common.ServiceFee, con);
+			if (result != Common.Success) return result;
+			Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
+			result = AccountSystemSQL.MakeTransaction(t, con);
+			Transaction serviceFee = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), senderID, receiverID);
+			result = AccountSystemSQL.TakeServiceFee(serviceFee, con);
+			return result;
 		}
+		// if it is not a checking account
+		result = AccountSystemSQL.checkMoney(senderID, money, con);
+		if (result != Common.Success) return result;
 		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
 		result = AccountSystemSQL.MakeTransaction(t, con);
 		return result;
@@ -87,8 +100,21 @@ public class AccountSystem implements AccountSystemFunctions{
 
 	@Override
 	public String Withdraw(String AccountID, double money) throws SQLException {
+		String result;
+		result = AccountSystemSQL.checkMoney(AccountID, money, con);
+		if (result != Common.Success) return result;
 		Transaction t = new Transaction(LocalDateTime.now(), money, "Withdraw", UUID.randomUUID().toString(), AccountID, AccountID);
-		String result = AccountSystemSQL.Withdraw(t, con);
+		result = AccountSystemSQL.Withdraw(t, con);
+		return result;
+	}
+
+	@Override
+	public String ServiceFee(String AccountID) throws SQLException {
+		// TODO Auto-generated method stub
+		String result = AccountSystemSQL.checkMoney(AccountID, Common.ServiceFee, con);
+		if (result != Common.Success) return result;
+		Transaction t = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), AccountID, AccountID);
+		result = AccountSystemSQL.TakeServiceFee(t, con);
 		return result;
 	}
 
