@@ -66,8 +66,8 @@ public class DatabaseTables {
 	        "  Datetime datetime(0) NOT NULL,\r\n" + 
 			"  Amount int(10) NOT NULL,\r\n" +
 			"  PRIMARY KEY (TransID),\r\n" +
-			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
-			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
+			"  CONSTRAINT STStockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
+			"  CONSTRAINT STAccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
 	        " );";
 	
 	public static final String accountstockTable = "CREATE TABLE IF NOT EXISTS Accountstock (\r\n" +
@@ -75,8 +75,8 @@ public class DatabaseTables {
 			"  StockID varchar(100) NOT NULL,\r\n" +
 			"  Amount int(10) NOT NULL,\r\n" +
 			"  PRIMARY KEY (AccountID,StockID),\r\n" +
-			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
-			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
+			"  CONSTRAINT ASStockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
+			"  CONSTRAINT ASAccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
 	        " );";
 	
 	public static final String savingSecurityTable = "CREATE TABLE IF NOT EXISTS SavingSecurityTable (\r\n" +
