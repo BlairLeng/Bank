@@ -91,6 +91,17 @@ public class CustomerPage {
 		frame.getContentPane().add(userJLabel);
 		userJLabel.setText("User Name: " + this.username);
 		
+		JButton refreshButton = new JButton("Refresh");
+		refreshButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		refreshButton.setBounds(480, 10, 100, 25);
+		refreshButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				refreshaccountlist();
+			}
+		});
+		frame.getContentPane().add(refreshButton);
+		
 		JButton enterJButton = new JButton("Enter");
 		enterJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		enterJButton.setBounds(480, 45, 100, 25);
@@ -136,6 +147,8 @@ public class CustomerPage {
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
 		table.getColumnModel().getColumn(4).setPreferredWidth(110);
 		scrollPane.setViewportView(table);
+		
+		
 	}
 	public void refreshaccountlist() {
 		ArrayList<Account> accounts = new ArrayList<>();

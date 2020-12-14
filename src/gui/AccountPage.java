@@ -29,7 +29,9 @@ public class AccountPage {
 
 	private JFrame frmAccount;
 	private AccountSystem accountSystem;
+	private String name;
 	private String uuid;
+	private JLabel userField;
 	private JLabel idField;
 	private JLabel typeField;
 	private JLabel currencyField;
@@ -57,15 +59,16 @@ public class AccountPage {
 	 * Create the application.
 	 */
 	public AccountPage(String name, String type,AccountSystem accountSystem,String uuid) {
+		this.name = name;
 		this.uuid = uuid;
 		this.accountSystem = accountSystem;
 		if(type.equals("Customer")) {
 			initialize_asCustomer();
+			ServiceFee();
 		}
 		else if(type.equals("Manager")) {
 			initialize_asManager();
 		}
-		ServiceFee();
 		refreshInfo();
 		frmAccount.setVisible(true);
 
@@ -120,7 +123,7 @@ public class AccountPage {
 		userLabel.setBounds(20, 20, 120, 25);
 		frmAccount.getContentPane().add(userLabel);
 		
-		JLabel userField = new JLabel("Bill");
+		userField = new JLabel(this.name);
 		userField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		userField.setBounds(145, 20, 280, 25);
 		frmAccount.getContentPane().add(userField);
@@ -262,7 +265,7 @@ public class AccountPage {
 		userLabel.setBounds(20, 20, 120, 25);
 		frmAccount.getContentPane().add(userLabel);
 		
-		JLabel userField = new JLabel("Bill");
+		userField = new JLabel("Bill");
 		userField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		userField.setBounds(145, 20, 280, 25);
 		frmAccount.getContentPane().add(userField);
@@ -323,6 +326,7 @@ public class AccountPage {
 			e.printStackTrace();
 		}
 		if(account != null) {
+			this.userField.setText(account.getCustomerName());
 			this.idField.setText(account.getUUID());
 			this.typeField.setText(account.getType());
 			this.balanceField.setText(String.valueOf(account.getCurrentBalance()));
