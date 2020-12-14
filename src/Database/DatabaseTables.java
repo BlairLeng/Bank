@@ -78,5 +78,13 @@ public class DatabaseTables {
 			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
 			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
 	        " );";
+	
+	public static final String savingSecurityTable = "CREATE TABLE IF NOT EXISTS SavingSecurityTable (\r\n" +
+			"  SavingAccountID varchar(100) NOT NULL,\r\n" + 
+			"  SecurityAccountID varchar(100) NOT NULL,\r\n" +
+			"  PRIMARY KEY (SavingAccountID,SecurityAccountID),\r\n" +
+			"  CONSTRAINT SavingAccountID FOREIGN KEY (SavingAccountID) REFERENCES account(AccountID),\r\n" +
+			"  CONSTRAINT SecurityAccountID FOREIGN KEY (SecurityAccountID) REFERENCES account(AccountID)\r\n" +
+	        " );";
 }
 	
