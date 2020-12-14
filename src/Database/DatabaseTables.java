@@ -11,7 +11,8 @@ public class DatabaseTables {
 	public static final String accountTable = "CREATE TABLE IF NOT EXISTS Account  (\r\n" + 
 			"  AccountID varchar(100) NOT NULL,\r\n" + 
 			"  Username varchar(50) NOT NULL,\r\n" + 
-			"  Type varchar(20) NOT NULL,\r\n" + 
+			"  Type varchar(20) NOT NULL,\r\n" +
+			"  CurrencyType varchar(20) NOT NULL,\r\n" +
 			"  CurrentBalance DOUBLE PRECISION(20, 4) NOT NULL,\r\n" + 
 			"  CreateTime datetime(0) NOT NULL,\r\n" + 
 			"  LastTime datetime(0) NOT NULL,\r\n" + 
@@ -24,6 +25,7 @@ public class DatabaseTables {
 			"  LoanID varchar(100) NOT NULL,\r\n" + 
 			"  LoanName varchar(100),\r\n" +
 			"  LoanReason varchar(100),\r\n" +
+			"  Collateral varchar(100),\r\n" +
 			"  AccountID varchar(100) NOT NULL,\r\n" + 
 			"  BeginDatatime datetime(0) NOT NULL,\r\n" + 
 			"  EndDatatime datetime(0) NOT NULL,\r\n" +

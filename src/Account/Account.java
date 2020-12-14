@@ -14,6 +14,7 @@ public abstract class Account implements GeneralAccountFunctions{
 	private UUID uuid;
 	private String uuidString;
 	private String type;
+	private String currencyType;
 	
 	public Account(String name, double money){
 		this.name = name;

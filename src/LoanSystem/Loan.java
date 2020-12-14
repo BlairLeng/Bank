@@ -8,6 +8,7 @@ public class Loan {
 	private String AccountID;
 	private String LoanName;
 	private String LoanReason;
+	private String Collateral;
 	private LocalDateTime beginTime;
 	private LocalDateTime endTime;
 	private double moneyLoaned;
