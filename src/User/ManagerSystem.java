@@ -13,6 +13,7 @@ import java.util.Iterator;
 import Account.Account;
 import Account.CheckingAccount;
 import Account.SavingAccount;
+import Common.Common;
 import TransactionSystem.Transaction;
 import Database.DatabaseConnection;
 import Database.DatabaseTables;
@@ -26,23 +27,26 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		this.conn = conn;
 	}
 
+	public LocalDateTime getlocaldatetime(ResultSet rs, String s) throws Exception {
+		LocalDate ld = rs.getDate(s).toLocalDate();
+		LocalTime lt = rs.getTime(s).toLocalTime();
+		LocalDateTime ldt = LocalDateTime.of(ld, lt);
+		return ldt;
+	}
+
 	@Override
 	public ArrayList<Account> Allaccounts() throws Exception {
 		ArrayList<Account> al = new ArrayList<Account>();
 		ResultSet rs = ManagerSystemSQL.allaccounts(conn);
 		while (rs.next()) {
 			if (rs.getString("Type").equals("SavingAccount")) {
-				LocalDate ld = rs.getDate("CreateTime").toLocalDate();
-				LocalTime lt = rs.getTime("CreateTime").toLocalTime();
-				LocalDateTime ldt = LocalDateTime.of(ld, lt);
+				LocalDateTime ldt = getlocaldatetime(rs, "CreateTime");
 				SavingAccount sa = new SavingAccount(ldt, rs.getString("Username"), rs.getDouble("currentbalance"),
 						rs.getString("AccountID"), rs.getString("Type"));
 				al.add(sa);
 			}
 			if (rs.getString("Type").equals("CheckingAccount")) {
-				LocalDate ld = rs.getDate("CreateTime").toLocalDate();
-				LocalTime lt = rs.getTime("CreateTime").toLocalTime();
-				LocalDateTime ldt = LocalDateTime.of(ld, lt);
+				LocalDateTime ldt = getlocaldatetime(rs, "CreateTime");
 				CheckingAccount ca = new CheckingAccount(ldt, rs.getString("Username"), rs.getDouble("currentbalance"),
 						rs.getString("AccountID"), rs.getString("Type"));
 				al.add(ca);
@@ -57,9 +61,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.alltrans(conn);
 		while (rs.next()) {
-			LocalDate ld = rs.getDate("Datetime").toLocalDate();
-			LocalTime lt = rs.getTime("Datetime").toLocalTime();
-			LocalDateTime ldt = LocalDateTime.of(ld, lt);
+			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), rs.getString("SenderID"), rs.getString("ReceiverID"));
 			al.add(t);
@@ -72,9 +74,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.checkusertrans(conn, username);
 		while (rs.next()) {
-			LocalDate ld = rs.getDate("Datetime").toLocalDate();
-			LocalTime lt = rs.getTime("Datetime").toLocalTime();
-			LocalDateTime ldt = LocalDateTime.of(ld, lt);
+			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), rs.getString("SenderID"), rs.getString("ReceiverID"));
 			al.add(t);
@@ -87,9 +87,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
 		while (rs.next()) {
-			LocalDate ld = rs.getDate("Datetime").toLocalDate();
-			LocalTime lt = rs.getTime("Datetime").toLocalTime();
-			LocalDateTime ldt = LocalDateTime.of(ld, lt);
+			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), rs.getString("SenderID"), rs.getString("ReceiverID"));
 			al.add(t);
@@ -103,31 +101,32 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
 		al.add("Transaction report:");
 		double totaltransmoney = 0, totalwithdrawmoney = 0, totaldepositmoney = 0, totalloanmoney = 0,
-				totalrecallmoney = 0;
-		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0, totalloantime = 0, totalrecalltime = 0;
+				totalrepaymoney = 0;
+		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0, totalloantime = 0, totalrepaytime = 0;
 		while (rs.next()) {
-			if (rs.getString("SenderID").equals(rs.getString("ReceiverID"))) {
-				double money = rs.getDouble("Money");
-				if (money < 0) {
-					totalwithdrawmoney -= money;
-					totalwithdrawtime++;
-				} else {
-					totaldepositmoney += money;
-					totaldeposittime++;
-				}
-			} else {
-				totaltransmoney += rs.getDouble("Money");
+			double money = rs.getDouble("Money");
+			switch (rs.getString("TransName")) {
+			case Common.TransName_Withdraw:
+				totalwithdrawmoney += money;
+				totalwithdrawtime++;
+				break;
+			case Common.TransName_Deposit:
+				totaldepositmoney += money;
+				totaldeposittime++;
+				break;
+			case Common.TransName_trans:
+				totaltransmoney += money;
 				totaltranstime++;
-			}
-
-			if (rs.getString("SenderID") == null) {
-				totalloanmoney += rs.getDouble("Money");
+				break;
+			case Common.TransName_Loan:
+				totalloanmoney += money;
 				totalloantime++;
-			}
+				break;
+			case Common.TransName_Repay:
+				totalrepaymoney += money;
+				totalrepaytime++;
+				break;
 
-			if (rs.getString("ReceiverID") == null) {
-				totalrecallmoney += rs.getDouble("Money");
-				totalrecalltime++;
 			}
 		}
 		al.add("Total transaction money:" + String.valueOf(totaltransmoney));
@@ -136,25 +135,10 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		al.add("Total withdraw time:" + String.valueOf(totalwithdrawtime));
 		al.add("Total deposit money:" + String.valueOf(totaldepositmoney));
 		al.add("Total deposit time:" + String.valueOf(totaldeposittime));
-		al.add("Total loan money:"+String.valueOf(totalloanmoney));
-		al.add("Total loan time:"+String.valueOf(totalloantime));
-		al.add("Total recall money:"+String.valueOf(totalrecallmoney));
-		al.add("Total recall time:"+String.valueOf(totalrecalltime));
-
-		// get loan data
-		/*
-		 * ResultSet lrs = ManagerSystemSQL.getdayloans(conn, date);
-		 * al.add("Loan report:"); double totalloanmoney = 0,totalrecallmoney=0; int
-		 * totalloantime = 0; while (lrs.next()) {
-		 * totalloanmoney+=lrs.getDouble("MoneyLoaned"); totalloantime++; }
-		 * al.add("Total loan money:"+String.valueOf(totalloanmoney));
-		 * al.add("Total loan time:"+String.valueOf(totalloantime));
-		 * 
-		 * //get recall loan data ResultSet rrs=ManagerSystemSQL.getdayreloans(conn,
-		 * date); while(rrs.next()) {
-		 * 
-		 * } al.add("Total recall loan money:"+String.valueOf(totalrecallmoney));
-		 */
+		al.add("Total loan money:" + String.valueOf(totalloanmoney));
+		al.add("Total loan time:" + String.valueOf(totalloantime));
+		al.add("Total repay money:" + String.valueOf(totalrepaymoney));
+		al.add("Total repay time:" + String.valueOf(totalrepaytime));
 
 		return al;
 	}
@@ -169,7 +153,12 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<Loan> al = new ArrayList<Loan>();
 		ResultSet rs = ManagerSystemSQL.allloans(conn);
 		while (rs.next()) {
-
+			LocalDateTime bldt = getlocaldatetime(rs, "BeginDatetime");
+			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
+			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"), bldt,
+					eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"), rs.getDouble("MoneyOwed"),
+					rs.getDouble("InterestRate"), rs.getInt("Status"));
+			al.add(loan);
 		}
 		return al;
 	}
@@ -179,7 +168,12 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ArrayList<Loan> al = new ArrayList<Loan>();
 		ResultSet rs = ManagerSystemSQL.getualoans(conn);
 		while (rs.next()) {
-
+			LocalDateTime bldt = getlocaldatetime(rs, "BeginDatetime");
+			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
+			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"), bldt,
+					eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"), rs.getDouble("MoneyOwed"),
+					rs.getDouble("InterestRate"), rs.getInt("Status"));
+			al.add(loan);
 		}
 		return al;
 	}
