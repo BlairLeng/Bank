@@ -25,12 +25,13 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.currencyType = currencyType;
 	}
 	
-	public Account(String AccountID, String type, double balance, LocalDateTime dateTime, String currencyType) {
+	public Account(String AccountID, String type, double balance, LocalDateTime dateTime, String currencyType, String username) {
 		this.uuidString = AccountID;
 		this.type = type;
 		this.money = balance;
 		this.dateTime = dateTime;
 		this.currencyType = currencyType;
+		this.name = username;
 	}
 	
 	public Account(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {
