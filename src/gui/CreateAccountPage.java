@@ -96,7 +96,7 @@ public class CreateAccountPage {
 		typeLabel.setBounds(95, 50, 100, 25);
 		frmCreateAccount.getContentPane().add(typeLabel);
 		
-		currencyBox = new JComboBox<>(new String[] {Common.CurrencyType_USD, Common.CurrencyType_RMB,Common.CurrencyType_EUR});
+		currencyBox = new JComboBox<>(new String[] {Common.CurrencyType_USD, Common.CurrencyType_CNY,Common.CurrencyType_EUR});
 		currencyBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		currencyBox.setBounds(235, 100, 100, 25);
 		frmCreateAccount.getContentPane().add(currencyBox);
