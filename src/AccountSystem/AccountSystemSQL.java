@@ -179,6 +179,14 @@ public class AccountSystemSQL {
 				+ '"' 
 				+ ")";
 		ResultSet rs = stmt.executeQuery(sql);
+		double totalmoney = getMoney(t.getreceiverUUID(),con) + t.getmoney();
+		sql = "UPDATE account "
+				+ "SET CurrentBalance = "
+				+ totalmoney
+				+ ", "
+				+ "WHERE AccountID = "
+				+ t.getreceiverUUID();
+		ResultSet rs1 = stmt.executeQuery(sql);
 		return Common.Success;
 	}
 	
@@ -210,6 +218,14 @@ public class AccountSystemSQL {
 				+ '"' 
 				+ ")";
 		ResultSet rs = stmt.executeQuery(sql);
+		double totalmoney = getMoney(t.getreceiverUUID(),con) - t.getmoney();
+		sql = "UPDATE account "
+				+ "SET CurrentBalance = "
+				+ totalmoney
+				+ ", "
+				+ "WHERE AccountID = "
+				+ t.getreceiverUUID();
+		ResultSet rs1 = stmt.executeQuery(sql);
 		return Common.Success;
 	}
 	
