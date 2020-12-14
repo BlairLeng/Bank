@@ -11,8 +11,8 @@ public class CheckingAccount extends Account{
 		this.setType("CheckingAccount");
 	}
 	
-	public CheckingAccount(String AccountID, String type, double money, LocalDateTime datetime) {
-		super(AccountID, type, money, datetime);
+	public CheckingAccount(String AccountID, String type, double money, LocalDateTime datetime, String currencyType) {
+		super(AccountID, type, money, datetime, currencyType);
 	}
 	
 	public CheckingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {

@@ -49,7 +49,8 @@ public class UserSystem implements UserSystemFunctions{
 						rs.getString("AccountID"),
 						rs.getString("Type"),
 						rs.getDouble("CurrentBalance"),
-						ldt
+						ldt,
+						rs.getString("CurrencyType")
 						);
 				curList.add(sa);
 			}
@@ -61,7 +62,8 @@ public class UserSystem implements UserSystemFunctions{
 						rs.getString("AccountID"),
 						rs.getString("Type"),
 						rs.getDouble("CurrentBalance"),
-						ldt
+						ldt,
+						rs.getString("CurrencyType")
 						);
 				curList.add(ca);
 			}

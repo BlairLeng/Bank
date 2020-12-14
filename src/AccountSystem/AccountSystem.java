@@ -35,7 +35,8 @@ public class AccountSystem implements AccountSystemFunctions{
 						rs.getString("AccountID"),
 						rs.getString("Type"),
 						rs.getDouble("CurrentBalance"),
-						ldt
+						ldt,
+						rs.getString("CurrencyType")
 						);
 				return sa;
 			}
@@ -47,7 +48,8 @@ public class AccountSystem implements AccountSystemFunctions{
 						rs.getString("AccountID"),
 						rs.getString("Type"),
 						rs.getDouble("CurrentBalance"),
-						ldt
+						ldt,
+						rs.getString("CurrencyType")
 						);
 				return ca;
 			}

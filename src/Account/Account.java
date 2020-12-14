@@ -24,11 +24,12 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.uuidString = this.uuid.toString();
 	}
 	
-	public Account(String AccountID, String type, double balance, LocalDateTime dateTime) {
+	public Account(String AccountID, String type, double balance, LocalDateTime dateTime, String currencyType) {
 		this.uuidString = AccountID;
 		this.type = type;
 		this.money = balance;
 		this.dateTime = dateTime;
+		this.currencyType = currencyType;
 	}
 	
 	public Account(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {
@@ -42,6 +43,10 @@ public abstract class Account implements GeneralAccountFunctions{
 	
 	protected String setType(String type) {
 		return this.type = type;
+	}
+	
+	public String getCurrencyType() {
+		return this.currencyType;
 	}
 	
 	public String getOpenTime() {
