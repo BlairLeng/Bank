@@ -15,7 +15,7 @@ public class UserSystemSQL {
 	public static String CreateSavingAccount(SavingAccount newAccount, Connection con) throws SQLException {
 		Statement stmt=con.createStatement();
 		String sql = "INSERT INTO `account` "
-				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
+				+ "(`AccountID`,`Username`,`Type`,`CurrencyType`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
 				+ "VALUES (" 
 				+ '"' 
 				+ newAccount.getUUID()
@@ -27,6 +27,10 @@ public class UserSystemSQL {
 				+ ", " 
 				+ '"'
 				+ newAccount.getType()
+				+ '"'
+				+ ", " 
+				+ '"'
+				+ newAccount.getCurrencyType()
 				+ '"'
 				+ ", "  
 				+ newAccount.getCurrentBalance()
@@ -49,7 +53,7 @@ public class UserSystemSQL {
 		// TODO Auto-generated method stub
 		Statement stmt=con.createStatement();
 		String sql = "INSERT INTO `account` "
-				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
+				+ "(`AccountID`,`Username`,`Type`,`CurrencyType`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
 				+ "VALUES (" 
 				+ '"' 
 				+ newAccount.getUUID()
@@ -61,6 +65,10 @@ public class UserSystemSQL {
 				+ ", " 
 				+ '"'
 				+ newAccount.getType()
+				+ '"'
+				+ ", " 
+				+ '"'
+				+ newAccount.getCurrencyType()
 				+ '"'
 				+ ", "  
 				+ newAccount.getCurrentBalance()

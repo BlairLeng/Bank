@@ -20,8 +20,14 @@ public class DatabaseConnection {
 		Connection con = getConnection();
 		Statement stmt=con.createStatement();
 //		SavingAccount newUser = new SavingAccount("zhang", 1000);
-//
-		String sql = DatabaseTables.loanTable;
+		String sql;
+		sql = DatabaseTables.userTable;
+		stmt.executeUpdate(sql);
+		sql = DatabaseTables.accountTable;
+		stmt.executeUpdate(sql);
+		sql = DatabaseTables.transactionTable;
+		stmt.executeUpdate(sql);
+		sql = DatabaseTables.loanTable;
 		stmt.executeUpdate(sql);
 //		String sql = "INSERT INTO `account` "
 //				+ "(`AccountID`,`Username`,`Type`,`CurrentBalance`,`CreateTime`,`LastTime`,`BeginMoney`) "
