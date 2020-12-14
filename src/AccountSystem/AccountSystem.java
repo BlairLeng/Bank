@@ -78,14 +78,14 @@ public class AccountSystem implements AccountSystemFunctions{
 			if (result != Common.Success) return result;
 			Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
 			result = AccountSystemSQL.MakeTransaction(t, con);
-			Transaction serviceFee = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), senderID, receiverID);
+			Transaction serviceFee = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), senderID, senderID);
 			result = AccountSystemSQL.TakeServiceFee(serviceFee, con);
 			return result;
 		}
 		// if it is not a checking account
 		result = AccountSystemSQL.checkMoney(senderID, money, con);
 		if (result != Common.Success) return result;
-		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
+		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, senderID);
 		result = AccountSystemSQL.MakeTransaction(t, con);
 		return result;
 	}
@@ -101,10 +101,12 @@ public class AccountSystem implements AccountSystemFunctions{
 	@Override
 	public String Withdraw(String AccountID, double money) throws SQLException {
 		String result;
-		result = AccountSystemSQL.checkMoney(AccountID, money, con);
+		result = AccountSystemSQL.checkMoney(AccountID, money+Common.ServiceFee, con);
 		if (result != Common.Success) return result;
 		Transaction t = new Transaction(LocalDateTime.now(), money, "Withdraw", UUID.randomUUID().toString(), AccountID, AccountID);
 		result = AccountSystemSQL.Withdraw(t, con);
+		Transaction serviceFee = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), AccountID, AccountID);
+		result = AccountSystemSQL.TakeServiceFee(serviceFee, con);
 		return result;
 	}
 
