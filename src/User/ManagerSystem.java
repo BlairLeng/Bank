@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -42,13 +43,13 @@ public class ManagerSystem implements ManagerSystemFunctions {
 			if (rs.getString("Type").equals("SavingAccount")) {
 				LocalDateTime ldt = getlocaldatetime(rs, "CreateTime");
 				SavingAccount sa = new SavingAccount(ldt, rs.getString("Username"), rs.getDouble("currentbalance"),
-						rs.getString("AccountID"), rs.getString("Type"));
+						rs.getString("AccountID"), rs.getString("Type"), rs.getString("CurrencyType"));
 				al.add(sa);
 			}
 			if (rs.getString("Type").equals("CheckingAccount")) {
 				LocalDateTime ldt = getlocaldatetime(rs, "CreateTime");
 				CheckingAccount ca = new CheckingAccount(ldt, rs.getString("Username"), rs.getDouble("currentbalance"),
-						rs.getString("AccountID"), rs.getString("Type"));
+						rs.getString("AccountID"), rs.getString("Type"), rs.getString("CurrencyType"));
 				al.add(ca);
 			}
 
@@ -101,7 +102,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
 		al.add("Transaction report:");
 		double totaltransmoney = 0, totalwithdrawmoney = 0, totaldepositmoney = 0, totalloanmoney = 0,
-				totalrepaymoney = 0;
+				totalservicemoney = 0, totalrepaymoney = 0;
 		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0, totalloantime = 0, totalrepaytime = 0;
 		while (rs.next()) {
 			double money = rs.getDouble("Money");
@@ -126,6 +127,9 @@ public class ManagerSystem implements ManagerSystemFunctions {
 				totalrepaymoney += money;
 				totalrepaytime++;
 				break;
+			case Common.TransName_ServiceFee:
+				totalservicemoney += money;
+				break;
 
 			}
 		}
@@ -139,6 +143,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		al.add("Total loan time:" + String.valueOf(totalloantime));
 		al.add("Total repay money:" + String.valueOf(totalrepaymoney));
 		al.add("Total repay time:" + String.valueOf(totalrepaytime));
+		al.add("Total service fee:" + String.valueOf(totalservicemoney));
 
 		return al;
 	}
@@ -155,9 +160,9 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		while (rs.next()) {
 			LocalDateTime bldt = getlocaldatetime(rs, "BeginDatetime");
 			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
-			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"), bldt,
-					eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"), rs.getDouble("MoneyOwed"),
-					rs.getDouble("InterestRate"), rs.getInt("Status"));
+			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
+					rs.getString("Collateral"), bldt, eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
+					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
 			al.add(loan);
 		}
 		return al;
@@ -170,18 +175,21 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		while (rs.next()) {
 			LocalDateTime bldt = getlocaldatetime(rs, "BeginDatetime");
 			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
-			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"), bldt,
-					eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"), rs.getDouble("MoneyOwed"),
-					rs.getDouble("InterestRate"), rs.getInt("Status"));
+			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
+					rs.getString("Collateral"), bldt, eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
+					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
 			al.add(loan);
 		}
 		return al;
 	}
+
 	/*
-	 * public static void main(String[] args)throws Exception { Connection
-	 * conn=DatabaseConnection.getConnection(); Statement
-	 * stmt=conn.createStatement(); ManagerSystem ms=new ManagerSystem(conn);
-	 * System.out.print(ms.Usertrans("111").get(1).gettransname()); }
+	 * public static void main(String[] args) throws Exception { Connection conn =
+	 * DatabaseConnection.getConnection(); Statement stmt = conn.createStatement();
+	 * ManagerSystem ms = new ManagerSystem(conn); String str = "2020-12-14";
+	 * DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	 * LocalDate localDate = LocalDate.parse(str, formatter);
+	 * System.out.print(ms.GetDayReport(localDate)); }
 	 */
 
 }
