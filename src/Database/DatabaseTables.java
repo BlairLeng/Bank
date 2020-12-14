@@ -61,11 +61,13 @@ public class DatabaseTables {
 			"  TransID varchar(100) NOT NULL,\r\n" + 
 			"  TransName varchar(100) NOT NULL,\r\n" +
 			"  StockID varchar(100) NOT NULL,\r\n" +
+			"  AccountID varchar(100) NOT NULL,\r\n" + 
 	        "  Price DOUBLE PRECISION(20, 4) NOT NULL,\r\n" +
 	        "  Datetime datetime(0) NOT NULL,\r\n" + 
 			"  Amount int(10) NOT NULL,\r\n" +
 			"  PRIMARY KEY (TransID),\r\n" +
-			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID)\r\n" +
+			"  CONSTRAINT StockID FOREIGN KEY (StockID) REFERENCES stocks(StockID),\r\n" +
+			"  CONSTRAINT AccountID FOREIGN KEY (AccountID) REFERENCES account(AccountID)\r\n" +
 	        " );";
 	
 	public static final String accountstockTable = "CREATE TABLE IF NOT EXISTS Accountstock (\r\n" +
