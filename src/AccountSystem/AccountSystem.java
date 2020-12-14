@@ -1,6 +1,7 @@
 package AccountSystem;
 
 import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import Account.CheckingAccount;
 import Account.SavingAccount;
 import AccountSystem.AccountSystemSQL;
 import TransactionSystem.Transaction;
+import Common.Common;
 
 public class AccountSystem implements AccountSystemFunctions{
 
@@ -66,8 +68,12 @@ public class AccountSystem implements AccountSystemFunctions{
 	@Override
 	public String MakeTransaction(String senderID, String receiverID, double money, String transName) throws SQLException {
 		// TODO Auto-generated method stub
+		String result;
+		result = AccountSystemSQL.checkCurrency(senderID, receiverID, con);
+		if (result == Common.Success) {			
+		}
 		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
-		String result = AccountSystemSQL.MakeTransaction(t, con);
+		result = AccountSystemSQL.MakeTransaction(t, con);
 		return result;
 	}
 
