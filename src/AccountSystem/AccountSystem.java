@@ -68,6 +68,7 @@ public class AccountSystem implements AccountSystemFunctions{
 	@Override
 	public String MakeTransaction(String senderID, String receiverID, double money, String transName) throws SQLException {
 		// TODO Auto-generated method stub
+		System.out.println("Hi there");
 		String result;
 		result = AccountSystemSQL.checkCurrency(senderID, receiverID, con);
 		if (result != Common.Success) return result;
@@ -85,7 +86,7 @@ public class AccountSystem implements AccountSystemFunctions{
 		// if it is not a checking account
 		result = AccountSystemSQL.checkMoney(senderID, money, con);
 		if (result != Common.Success) return result;
-		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, senderID);
+		Transaction t = new Transaction(LocalDateTime.now(), money, transName, UUID.randomUUID().toString(), senderID, receiverID);
 		result = AccountSystemSQL.MakeTransaction(t, con);
 		return result;
 	}

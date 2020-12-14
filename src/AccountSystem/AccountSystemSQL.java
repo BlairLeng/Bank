@@ -28,8 +28,11 @@ public class AccountSystemSQL {
 				+ AccountID
 				+ "'";
 		ResultSet rs = stmt.executeQuery(sql);
-		String AccountType = rs.getString("Type");
-		return AccountType;
+		if (rs.next()){			
+			String AccountType = rs.getString("Type");
+			return AccountType;
+		}
+		return Common.QueryFailed;
 	}
 	
 	public static String checkCurrency(String AID1, String AID2, Connection con) throws SQLException {
@@ -39,14 +42,21 @@ public class AccountSystemSQL {
 				+ AID1
 				+ "'";
 		ResultSet rs1 = stmt.executeQuery(sql);
+		String CurrencyType = "";
+		if (rs1.next()) {
+			CurrencyType = rs1.getString("CurrencyType");
+		}
 		sql = "SELECT * FROM account WHERE AccountID = "
 				+ "'"
 				+ AID2
 				+ "'";
 		ResultSet rs2 = stmt.executeQuery(sql);
-		if (rs1.getString("CurrencyType").equals(rs2.getString("CurrencyType"))) {
-			return Common.Success;
+		if (rs2.next()) {
+			if (CurrencyType.equals(rs2.getString("CurrencyType"))) {
+				return Common.Success;
+			}
 		}
+		
 		return Common.TypeDifference;
 	}
 	
