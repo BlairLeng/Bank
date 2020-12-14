@@ -23,4 +23,8 @@ public class Common {
 	public static final String CurrencyType_USD = "USD";
 	public static final String CurrencyType_EUR = "EUR";
 	public static final String CurrencyType_CNY = "CNY";
+	
+	public static final String StockTrans_Buy = "Buy";
+	public static final String StockTrans_Sell = "Sell";
+	public static final String NotEnoughStocks = "Not Enough Stocks!";
 }
