@@ -15,7 +15,7 @@ public class SavingAccount extends Account{
 		super(AccountID, type, money, datetime);
 	}
 	
-	public SavingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type) {
-		super(dateTime, name, money, uuid, type);
+	public SavingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {
+		super(dateTime, name, money, uuid, type,currencytype);
 	}
 }

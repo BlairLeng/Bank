@@ -31,12 +31,13 @@ public abstract class Account implements GeneralAccountFunctions{
 		this.dateTime = dateTime;
 	}
 	
-	public Account(LocalDateTime dateTime,String name,double money,String uuid,String type) {
+	public Account(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {
 		this.name=name;
 		this.money=money;
 		this.dateTime=dateTime;
 		this.uuidString=uuid;
 		this.type=type;
+		this.currencyType=currencytype;
 	}
 	
 	protected String setType(String type) {

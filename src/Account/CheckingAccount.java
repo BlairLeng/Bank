@@ -15,8 +15,8 @@ public class CheckingAccount extends Account{
 		super(AccountID, type, money, datetime);
 	}
 	
-	public CheckingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type) {
-		super(dateTime, name, money, uuid, type);
+	public CheckingAccount(LocalDateTime dateTime,String name,double money,String uuid,String type,String currencytype) {
+		super(dateTime, name, money, uuid, type,currencytype);
 	}
 	
 }
