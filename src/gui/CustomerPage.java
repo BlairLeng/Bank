@@ -13,7 +13,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.cj.xdevapi.Table;
+
 import Account.Account;
+import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;
 import User.UserSystem;
 
@@ -83,13 +86,13 @@ public class CustomerPage {
 		frame.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 		
 		JLabel userJLabel = new JLabel("User Name: ");
-		userJLabel.setFont(new Font("ËÎÌו", Font.PLAIN, 16));
+		userJLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		userJLabel.setBounds(10, 10, 460, 25);
 		frame.getContentPane().add(userJLabel);
 		userJLabel.setText("User Name: " + this.username);
 		
 		JButton enterJButton = new JButton("Enter");
-		enterJButton.setFont(new Font("ËÎÌו", Font.PLAIN, 16));
+		enterJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		enterJButton.setBounds(480, 45, 100, 25);
 		enterJButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -100,7 +103,7 @@ public class CustomerPage {
 		frame.getContentPane().add(enterJButton);
 		
 		JButton createJButton = new JButton("Create");
-		createJButton.setFont(new Font("ËÎÌו", Font.PLAIN, 16));
+		createJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		createJButton.setBounds(480, 100, 100, 25);
 		createJButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -114,16 +117,24 @@ public class CustomerPage {
 		scrollPane.setBounds(10, 45, 460, 300);
 		frame.getContentPane().add(scrollPane);
 		
-		table = new JTable();
+		//table = new JTable();
+		// set cell not editable
+		table = new JTable(){
+			public boolean isCellEditable(int row, int column){
+				return false;
+            }
+		}; 
+		table.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		String[] header = {"Account ID", "Account Type", "Balance", "Date"};
+		String[] header = {"Account ID", "Account Type","Currency", "Balance", "Date"};
 		tablemodel = new DefaultTableModel(null,header);
 		refreshaccountlist();
 		table.setModel(tablemodel);
-		table.getColumnModel().getColumn(0).setPreferredWidth(75);
-		table.getColumnModel().getColumn(1).setPreferredWidth(75);
-//		table.getColumnModel().getColumn(2).setPreferredWidth(100);
-		table.getColumnModel().getColumn(3).setPreferredWidth(80);
+		table.getColumnModel().getColumn(0).setPreferredWidth(90);
+		table.getColumnModel().getColumn(1).setPreferredWidth(90);
+		table.getColumnModel().getColumn(2).setPreferredWidth(70);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(110);
 		scrollPane.setViewportView(table);
 	}
 	public void refreshaccountlist() {
@@ -142,6 +153,7 @@ public class CustomerPage {
 			Account account = accounts.get(i);
 			tablemodel.addRow(new String[] {account.getUUID(),
 											account.getType(),
+											account.getCurrencyType(),
 											String.format("%.2f", account.getCurrentBalance()),
 											account.getOpenTime()});
 		}
@@ -149,17 +161,17 @@ public class CustomerPage {
 	private void clickcreatebutton() {
 		new CreateAccountPage(username,this);
 	}
-	public String createnewaccount(String type,double money) {
+	public String createnewaccount(String type,double money,String currency) {
 		String resultString = new String();
 		if(type.equals("Saving")) {
 			try {
-				resultString = this.userSystem.CreateSavingAccount(username, money);
+				resultString = this.userSystem.CreateSavingAccount(username, money,currency);
 			}catch (Exception e) {
 				return String.valueOf(e);
 			}
 		}else if(type.equals("Checking")) {
 			try {
-				resultString = this.userSystem.CreateCheckingAccount(username, money);
+				resultString = this.userSystem.CreateCheckingAccount(username, money,currency);
 			}catch (Exception e) {
 				return String.valueOf(e);
 			}
@@ -169,7 +181,6 @@ public class CustomerPage {
 	private void clickenterbutton() {
 		int item = table.getSelectedRow();
 		String uuidString = String.valueOf(tablemodel.getValueAt(item, 0));
-		System.out.println(item);
-		System.out.println(uuidString);
+		new AccountPage(this.username,"Customer",new AccountSystem(this.userSystem.con),uuidString);
 	}
 }

@@ -1,7 +1,6 @@
 package gui;
 import LoginSystem.LoginSystem;
 import User.ManagerSystem;
-import User.User;
 import User.UserSystem;
 
 import java.awt.EventQueue;
@@ -13,10 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import Common.Common;
-
 import java.sql.Connection;
-
-
 import Database.DatabaseConnection;
 
 import java.awt.Font;
@@ -78,7 +74,7 @@ public class LoginPage {
 	private void initialize() {
 		frmBank = new JFrame();
 		frmBank.setResizable(false);
-		frmBank.getContentPane().setFont(new Font("宋体", Font.PLAIN, 16));
+		frmBank.getContentPane().setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		frmBank.setTitle("Bank");
 		frmBank.setBounds(100, 100, 200, 150);
 		frmBank.setSize(new Dimension(340, 245));
@@ -94,12 +90,12 @@ public class LoginPage {
 		frmBank.setLocation(screenWidth/2-windowWidth/2, screenHeight/2-windowHeight/2);
 		
 		JLabel userJLabel = new JLabel("User:");
-		userJLabel.setFont(new Font("宋体", Font.BOLD, 16));
+		userJLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		userJLabel.setBounds(40, 20, 80, 25);
 		frmBank.getContentPane().add(userJLabel);
 		
 		JLabel pswJLabel = new JLabel("Password:");
-		pswJLabel.setFont(new Font("宋体", Font.BOLD, 16));
+		pswJLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		pswJLabel.setBounds(40, 65, 80, 25);
 		frmBank.getContentPane().add(pswJLabel);
 		
@@ -119,14 +115,14 @@ public class LoginPage {
 		
 		customerJRadioButton = new JRadioButton("Customer",true);
 		buttonGroup.add(customerJRadioButton);
-		customerJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		customerJRadioButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		customerJRadioButton.setBounds(40, 110, 100, 25);
 		
 		frmBank.getContentPane().add(customerJRadioButton);
 		
 		manageJRadioButton = new JRadioButton("Manager");
 		buttonGroup.add(manageJRadioButton);
-		manageJRadioButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		manageJRadioButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		manageJRadioButton.setBounds(40, 155, 100, 25);
 		frmBank.getContentPane().add(manageJRadioButton);
 		
@@ -137,7 +133,7 @@ public class LoginPage {
 				clickloginbutton();
 			}
 		});
-		loginJButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		loginJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		loginJButton.setBounds(180, 110, 100, 25);
 		frmBank.getContentPane().add(loginJButton);
 		
@@ -148,7 +144,7 @@ public class LoginPage {
 				clicksignupbutton();
 			}
 		});
-		signupJButton.setFont(new Font("宋体", Font.PLAIN, 16));
+		signupJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		signupJButton.setBounds(180, 155, 100, 25);
 		frmBank.getContentPane().add(signupJButton);
 	}
