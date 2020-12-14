@@ -93,8 +93,9 @@ public class AccountSystem implements AccountSystemFunctions{
 	@Override
 	public String Deposit(String AccountID, double money) throws SQLException {
 		// TODO Auto-generated method stub
-		Transaction t = new Transaction(LocalDateTime.now(), money, "Deposit In", UUID.randomUUID().toString(), AccountID, AccountID);
-		String result = AccountSystemSQL.Deposit(t, con);
+		String result;
+		Transaction t = new Transaction(LocalDateTime.now(), money, Common.TransName_Deposit, UUID.randomUUID().toString(), AccountID, AccountID);
+		result = AccountSystemSQL.Deposit(t, con);
 		return result;
 	}
 
