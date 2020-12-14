@@ -32,17 +32,19 @@ public class Loan {
 		this.Status = 0;
 	}
 
-	public Loan(String AccountID, String LoanName, String LoanReason, LocalDateTime beginTime, LocalDateTime endTime,
-			double moneyLoaned, double moneyReturned, double moneyOwed, double interestRate, int Status) {
-		this.AccountID=AccountID;
-		this.LoanName=LoanName;
-		this.LoanReason=LoanReason;
-		this.beginTime=beginTime;
-		this.endTime=endTime;
-		this.moneyLoaned=moneyLoaned;
-		this.moneyReturned=moneyReturned;
-		this.moneyOwed=moneyOwed;
-		this.interestRate=interestRate;
-		this.Status=Status;
+	public Loan(String AccountID, String LoanName, String LoanReason, String Collateral, LocalDateTime beginTime,
+			LocalDateTime endTime, double moneyLoaned, double moneyReturned, double moneyOwed, double interestRate,
+			int Status) {
+		this.AccountID = AccountID;
+		this.LoanName = LoanName;
+		this.LoanReason = LoanReason;
+		this.Collateral = Collateral;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
+		this.moneyLoaned = moneyLoaned;
+		this.moneyReturned = moneyReturned;
+		this.moneyOwed = moneyOwed;
+		this.interestRate = interestRate;
+		this.Status = Status;
 	}
 }
