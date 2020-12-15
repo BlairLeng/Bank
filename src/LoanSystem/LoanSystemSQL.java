@@ -48,6 +48,6 @@ public class LoanSystemSQL {
 		return Common.QueryFailed;
 	}
 	
-	public static 
+//	public static 
 
 }
