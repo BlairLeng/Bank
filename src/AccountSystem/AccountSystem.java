@@ -15,6 +15,7 @@ import Account.SavingAccount;
 import AccountSystem.AccountSystemSQL;
 import TransactionSystem.Transaction;
 import Common.Common;
+import LoanSystem.Loan;
 
 public class AccountSystem implements AccountSystemFunctions{
 
@@ -58,12 +59,6 @@ public class AccountSystem implements AccountSystemFunctions{
 				return ca;
 			}
 		}
-		return null;
-	}
-
-	@Override
-	public String RequestLoan(String AccountID, double money, double interestRate) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -121,6 +116,15 @@ public class AccountSystem implements AccountSystemFunctions{
 		if (result != Common.Success) return result;
 		Transaction t = new Transaction(LocalDateTime.now(), Common.ServiceFee, Common.TransName_ServiceFee, UUID.randomUUID().toString(), AccountID, AccountID);
 		result = AccountSystemSQL.TakeServiceFee(t, con);
+		return result;
+	}
+
+	@Override
+	public String RequestLoan(String AccountID, double money, int daysLoaned, double interestRate, String loanName,
+			String loanReason, String collateral) throws SQLException {
+		// TODO Auto-generated method stub
+		Loan loan = new Loan(AccountID, money, daysLoaned, interestRate, loanName, loanReason, collateral);
+		String result = AccountSystemSQL.RequestLoan(loan, con);
 		return result;
 	}
 

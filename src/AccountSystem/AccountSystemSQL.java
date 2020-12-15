@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import Account.Account;
 import Common.Common;
+import LoanSystem.Loan;
 import TransactionSystem.Transaction;
 
 public class AccountSystemSQL {
@@ -261,6 +262,53 @@ public class AccountSystemSQL {
 				+ t.getreceiverUUID()
 				+ '"';
 		Boolean rs1 = stmt.execute(sql);
+		return Common.Success;
+	}
+	
+	public static String RequestLoan(Loan loan, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "INSERT INTO `loan` "
+				+ "(`LoanID`,`LoanName`,`LoanReason`,`Collateral`,`AccountID`,`BeginDatetime`,`EndDatetime`,`MoneyOwed`,`MoneyLoaned`,`MoneyReturned`,`InterestRate`,`Status`) "
+				+ "VALUES (" 
+				+ '"' 
+				+ loan.getID()
+				+ '"' 
+				+ ", " 
+				+ '"'
+				+ loan.getLoanName()  
+				+ '"'
+				+ ", " 
+				+ '"' 
+				+ loan.getLoanReason()
+				+ '"' 
+				+ ", " 
+				+ '"' 
+				+ loan.getCollateral()
+				+ '"' 
+				+ ", "  
+				+ '"'
+				+ loan.getAccountID()
+				+ '"'
+				+ ", " 
+				+ '"' 
+				+ loan.getBeginDate()
+				+ '"' 
+				+ ", " 
+				+ '"' 
+				+ loan.getEndDate()
+				+ '"' 
+				+ ", " 
+				+ loan.getMoneyOwed()
+				+ ", " 
+				+ loan.getMoneyLoaned()
+				+ ", " 
+				+ loan.getMoneyReturned()
+				+ ", " 
+				+ loan.getInterestRate()
+				+ ", " 
+				+ loan.getStatus()
+				+ ")";
+		int rs = stmt.executeUpdate(sql);
 		return Common.Success;
 	}
 	
