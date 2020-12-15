@@ -65,7 +65,7 @@ public class AccountSystem implements AccountSystemFunctions{
 	@Override
 	public String MakeTransaction(String senderID, String receiverID, double money, String transName) throws SQLException {
 		// TODO Auto-generated method stub
-		System.out.println("Hi there");
+//		System.out.println("Hi there");
 		String result;
 		result = AccountSystemSQL.checkCurrency(senderID, receiverID, con);
 		if (result != Common.Success) return result;

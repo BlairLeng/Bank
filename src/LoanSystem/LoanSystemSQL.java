@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Common.Common;
+import AccountSystem.AccountSystemSQL;
 
 public class LoanSystemSQL {
 	
@@ -20,7 +21,7 @@ public class LoanSystemSQL {
 		return rs;
 	}
 	
-	public static String Repayment(String AccountID, String LoanID, double money, Connection con) throws SQLException {
+	public static String Repay(String AccountID, String LoanID, double money, Connection con) throws SQLException {
 		Statement stmt = con.createStatement();
 		String sql = "UPDATE `loan`"
 				+ "SET loan.MoneyReturned = loan.MoneyReturned + "
@@ -30,7 +31,18 @@ public class LoanSystemSQL {
 				+ '"'
 				+ LoanID
 				+ '"';
+		stmt.executeUpdate(sql);
 		
+		double totalMoney = AccountSystemSQL.getMoney(AccountID,con) - money;
+		sql = "UPDATE `account` "
+				+ "SET account.CurrentBalance = "
+				+ totalMoney
+				+ " "
+				+ "WHERE account.AccountID = "
+				+ '"'
+				+ AccountID
+				+ '"';
+		stmt.execute(sql);
 		return Common.Success;
 	}
 	
@@ -48,6 +60,18 @@ public class LoanSystemSQL {
 		return Common.QueryFailed;
 	}
 	
-//	public static 
+	public static double maximumRepayment(String LoanID, double money, Connection con) throws SQLException{
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM loan WHERE LoanID = "
+				+ "'"
+				+ LoanID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			double difference = rs.getDouble("MoneyOwed") - rs.getDouble("MoneyReturned");
+			return Math.min(money, difference);
+		}
+		return money;
+	}
 
 }

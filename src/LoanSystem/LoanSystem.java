@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.UUID;
 
 import AccountSystem.AccountSystemSQL;
 import LoanSystem.LoanSystemSQL;
+import TransactionSystem.Transaction;
 import Common.Common;
 
 
@@ -52,8 +54,12 @@ public class LoanSystem implements LoanSystemFunctions {
 		if (result != Common.Success) return result;
 		result = LoanSystemSQL.legalLoan(LoanID, con);
 		if (result != Common.Success) return result;
-		
-		return null;
+		double maxMoney = LoanSystemSQL.maximumRepayment(LoanID, money, con);
+		result = LoanSystemSQL.Repay(AccountID, LoanID, maxMoney, con);
+		Transaction t = new Transaction(LocalDateTime.now(), money, Common.TransName_Repay, UUID.randomUUID().toString(), AccountID, AccountID);
+		if (result != Common.Success) return result;
+		result = AccountSystemSQL.MakeTransaction(t, con);
+		return result;
 	}
 
 	@Override
