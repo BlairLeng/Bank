@@ -63,13 +63,13 @@ public class TransactionSystem implements TransactionSystemFunctions{
 	public ArrayList<Transaction> AccountTrans(String accountid) throws Exception{
 		ArrayList<Transaction> al=new ArrayList<Transaction>();
 		ResultSet rs=TransactionSystemSQL.viewaccounttrans(accountid, conn);
-		String sid=rs.getString("SenderID");
-		String rid=rs.getString("ReceiverID");
-		ResultSet rs1=AccountSystemSQL.QueryAccountInformation(sid, conn);
-		ResultSet rs2=AccountSystemSQL.QueryAccountInformation(rid, conn);
-		rs1.next();
-		rs2.next();
 		while(rs.next()) {
+			String sid=rs.getString("SenderID");
+			String rid=rs.getString("ReceiverID");
+			ResultSet rs1=AccountSystemSQL.QueryAccountInformation(sid, conn);
+			ResultSet rs2=AccountSystemSQL.QueryAccountInformation(rid, conn);
+			rs1.next();
+			rs2.next();
 			LocalDate ld=rs.getDate("Datetime").toLocalDate();
 			LocalTime lt=rs.getTime("Datetime").toLocalTime();
 			LocalDateTime ldt=LocalDateTime.of(ld, lt);

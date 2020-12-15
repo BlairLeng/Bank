@@ -62,13 +62,13 @@ public class ManagerSystem implements ManagerSystemFunctions {
 	public ArrayList<Transaction> Alltrans() throws Exception {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.alltrans(conn);
-		String sid = rs.getString("SenderID");
-		String rid = rs.getString("ReceiverID");
-		ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
-		ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
-		rs1.next();
-		rs2.next();
 		while (rs.next()) {
+			String sid = rs.getString("SenderID");
+			String rid = rs.getString("ReceiverID");
+			ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
+			ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
+			rs1.next();
+			rs2.next();
 			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), sid, rid, rs1.getString("Username"), rs2.getString("Username"));
@@ -81,13 +81,13 @@ public class ManagerSystem implements ManagerSystemFunctions {
 	public ArrayList<Transaction> Usertrans(String username) throws Exception {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.checkusertrans(conn, username);
-		String sid = rs.getString("SenderID");
-		String rid = rs.getString("ReceiverID");
-		ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
-		ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
-		rs1.next();
-		rs2.next();
 		while (rs.next()) {
+			String sid = rs.getString("SenderID");
+			String rid = rs.getString("ReceiverID");
+			ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
+			ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
+			rs1.next();
+			rs2.next();
 			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), sid, rid, rs1.getString("Username"), rs2.getString("Username"));
@@ -100,13 +100,13 @@ public class ManagerSystem implements ManagerSystemFunctions {
 	public ArrayList<Transaction> GetDaytrans(LocalDate date) throws Exception {
 		ArrayList<Transaction> al = new ArrayList<Transaction>();
 		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
-		String sid = rs.getString("SenderID");
-		String rid = rs.getString("ReceiverID");
-		ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
-		ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
-		rs1.next();
-		rs2.next();
 		while (rs.next()) {
+			String sid = rs.getString("SenderID");
+			String rid = rs.getString("ReceiverID");
+			ResultSet rs1 = AccountSystemSQL.QueryAccountInformation(sid, conn);
+			ResultSet rs2 = AccountSystemSQL.QueryAccountInformation(rid, conn);
+			rs1.next();
+			rs2.next();
 			LocalDateTime ldt = getlocaldatetime(rs, "Datetime");
 			Transaction t = new Transaction(ldt, rs.getDouble("Money"), rs.getString("TransName"),
 					rs.getString("TransID"), sid, rid, rs1.getString("Username"), rs2.getString("Username"));
