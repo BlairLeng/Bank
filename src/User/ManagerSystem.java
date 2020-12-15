@@ -199,7 +199,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
 			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
 					rs.getString("Collateral"), bldt, eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
-					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
+					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"), rs.getString("LoanID"));
 			al.add(loan);
 		}
 		return al;
@@ -214,7 +214,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 			LocalDateTime eldt = getlocaldatetime(rs, "EndDatetime");
 			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
 					rs.getString("Collateral"), bldt, eldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
-					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
+					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"), rs.getString("LoanID"));
 			al.add(loan);
 		}
 		return al;

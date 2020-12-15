@@ -37,5 +37,6 @@ public class Common {
 	public static final String NotValidLoanID = "This is not a valid Loan!";
 	
 	public static final double ServiceFee = 5.0;
-	
+	public static final double HighBalance = 2000;
+	public static final double SavingInterestRate = 1.01;
 }
