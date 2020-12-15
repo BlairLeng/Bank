@@ -30,7 +30,7 @@ public class Loan {
 		this.endTime = this.beginTime.plusDays(daysLoaned);
 		this.loanID = UUID.randomUUID();
 		this.moneyReturned = 0;
-		this.Status = 0;
+		this.Status = -1;
 		this.Collateral = collateral;
 	}
 
