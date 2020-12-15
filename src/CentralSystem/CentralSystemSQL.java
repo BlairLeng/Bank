@@ -19,7 +19,8 @@ public class CentralSystemSQL {
 		return rs;
 	}
 	
-	public static String UpdateMoney(ArrayList<String> AccountIDList, HashMap<String, Integer> hash, Connection con) {
+	public static String UpdateMoney(ArrayList<String> AccountIDList, HashMap<String, Integer> hash, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
 		for (int i = 0; i <= AccountIDList.size(); i++) {	
 			String tempAccId = AccountIDList.get(i);
 			double currentMoney = AccountSystemSQL.getMoney(tempAccId, con);
@@ -30,11 +31,26 @@ public class CentralSystemSQL {
 					+ " "
 					+ "WHERE account.AccountID = "
 					+ '"'
-					+ t.getreceiverUUID()
+					+ tempAccId
 					+ '"';
-			Boolean rs1 = stmt.execute(sql);
+			stmt.executeUpdate(sql);
 		}
-		return null;
+		return Common.Success;
 	}
 	
+	public static String UpdateLastTime(String ldt, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "UPDATE `account` "
+				+ "SET account.LastTime = "
+				+ '"'
+				+ ldt
+				+ '"'
+				+ " "
+				+ "WHERE"
+				+ " "
+				+ "AccountID != '1'";
+		stmt.execute(sql);
+//		ResultSet rs = stmt.executeQuery(sql);
+		return Common.Success;
+	}
 }

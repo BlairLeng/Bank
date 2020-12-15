@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,10 +44,14 @@ public class CentralSystem implements CentralSystemFunctions{
 		}
 		
 		//update money
-		
+		String result = CentralSystemSQL.UpdateMoney(AccountIDList, hash, con);
+		if (result != Common.Success) return result;
+
 		//update lasttime
-		
-		return null;
+	    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    String formattedDate = ldt.format(myFormatObj);
+	    result = CentralSystemSQL.UpdateLastTime(formattedDate, con);
+		return result;
 	}
 	
 }
