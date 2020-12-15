@@ -49,7 +49,7 @@ public class LoanSystem implements LoanSystemFunctions {
 		// TODO Auto-generated method stub
 		String result;
 		result = AccountSystemSQL.checkAccountCurrencyType(AccountID, con);
-		if (result != Common.CurrencyType_USD) return Common.CurrencyTypeNotUSD;
+		if (result.equals(Common.CurrencyType_USD)) return Common.CurrencyTypeNotUSD;
 		result = AccountSystemSQL.checkMoney(AccountID, money, con);
 		if (result != Common.Success) return result;
 		result = LoanSystemSQL.legalLoan(LoanID, con);
