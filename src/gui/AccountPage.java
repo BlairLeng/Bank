@@ -48,7 +48,7 @@ public class AccountPage {
 			public void run() {
 				try {
 					Connection con = DatabaseConnection.getConnection();
-					AccountPage window = new AccountPage("Bill","Customer",new AccountSystem(con),"0c936cc0-864b-4c53-afa6-5f6e7edc94bc");
+					AccountPage window = new AccountPage("Bill","Customer",new AccountSystem(con),"27fd67bc-df00-4527-9d0b-865f7c69447a");
 					window.frmAccount.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -363,9 +363,10 @@ public class AccountPage {
 			transactions = transactionSystem.AccountTrans(this.uuid);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(frmAccount.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
+			System.out.println(e);
 			return;
 		}
-		new TransactionPage(transactions);
+		new TransactionPage(transactions,this.uuid,"uuid");
 	}
 	private void clickApplyLoanbutton() {
 	

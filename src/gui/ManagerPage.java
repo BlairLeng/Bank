@@ -5,11 +5,13 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import Account.Account;
 import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;
+import TransactionSystem.Transaction;
 import User.ManagerSystem;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -67,7 +70,7 @@ public class ManagerPage {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 800, 400);
+		frame.setBounds(100, 100, 850, 400);
 		frame.setTitle("Bank");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -88,7 +91,7 @@ public class ManagerPage {
 		
 		JButton refreshButton = new JButton("Refresh");
 		refreshButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		refreshButton.setBounds(670, 10, 100, 25);
+		refreshButton.setBounds(670, 10, 150, 25);
 		refreshButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -97,26 +100,60 @@ public class ManagerPage {
 		});
 		frame.getContentPane().add(refreshButton);
 		
-		JButton enterJButton = new JButton("Enter");
-		enterJButton.addMouseListener(new MouseAdapter() {
+		JButton enterButton = new JButton("Enter");
+		enterButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		enterButton.setBounds(670, 60, 150, 25);
+		enterButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickEnterbutton();
 			}
 		});
-		enterJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		enterJButton.setBounds(670, 45, 100, 25);
-		frame.getContentPane().add(enterJButton);
+		frame.getContentPane().add(enterButton);
 		
-		JButton loanJButton = new JButton("Loan");
-		loanJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		loanJButton.setBounds(670, 100, 100, 25);
-		frame.getContentPane().add(loanJButton);
+		JButton usertransactionButton = new JButton("User Transaction");
+		usertransactionButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		usertransactionButton.setBounds(670, 120, 150, 25);
+		usertransactionButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickUserTransactionbutton();
+			}
+		});
+		frame.getContentPane().add(usertransactionButton);
 		
-		JButton stockJButton = new JButton("Stock");
-		stockJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		stockJButton.setBounds(670, 155, 100, 25);
-		frame.getContentPane().add(stockJButton);
+		JButton dailyreportButton = new JButton("Daily Report");
+		dailyreportButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		dailyreportButton.setBounds(670, 180, 150, 25);
+		dailyreportButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickDailyReportbutton();
+			}
+		});
+		frame.getContentPane().add(dailyreportButton);
+		
+		JButton loanrequesetButton = new JButton("Loan Request");
+		loanrequesetButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		loanrequesetButton.setBounds(670, 240, 150, 25);
+		loanrequesetButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickLoanRequestbutton();
+			}
+		});
+		frame.getContentPane().add(loanrequesetButton);
+		
+		JButton stocksystemButton = new JButton("Stock System");
+		stocksystemButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		stocksystemButton.setBounds(670, 300, 150, 25);
+		stocksystemButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickStockSystembutton();
+			}
+		});
+		frame.getContentPane().add(stocksystemButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 45, 650, 300);
@@ -170,5 +207,35 @@ public class ManagerPage {
 		String uuidString = String.valueOf(tablemodel.getValueAt(item, 0));
 		new AccountPage(this.username,"Manager",new AccountSystem(this.managerSystem.conn),uuidString);
 	}
-
+	public void clickUserTransactionbutton() {
+		int item = table.getSelectedRow();
+		String usernameString = String.valueOf(tablemodel.getValueAt(item, 1));
+		ArrayList<Transaction> transactions = new ArrayList<>();
+		try {
+			transactions = this.managerSystem.Usertrans(usernameString);
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(frame.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
+			System.out.println(e);
+			return;
+		}
+		new TransactionPage(transactions,usernameString,"Username");
+	}
+	public void clickDailyReportbutton() {
+		int item = table.getSelectedRow();
+		String usernameString = String.valueOf(tablemodel.getValueAt(item, 1));
+		ArrayList<String> report = new ArrayList<>();
+		try {
+			report = this.managerSystem.GetDayReport(LocalDate.now());
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(frame.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
+			System.out.println(e);
+			return;
+		}
+	}
+	public void clickLoanRequestbutton() {
+		
+	}
+	public void clickStockSystembutton() {
+		
+	}
 }

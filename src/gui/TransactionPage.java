@@ -17,7 +17,8 @@ import TransactionSystem.Transaction;
 public class TransactionPage {
 
 	private JFrame frame;
-	private String uuid;
+	private String host;
+	private String type;
 	private JTable table;
 	private DefaultTableModel tablemodel;
 	private ArrayList<Transaction> transactions;
@@ -30,7 +31,7 @@ public class TransactionPage {
 			public void run() {
 				try {
 					ArrayList<Transaction> transactions = new ArrayList<>();
-					TransactionPage window = new TransactionPage(transactions);
+					TransactionPage window = new TransactionPage(transactions,"27fd67bc-df00-4527-9d0b-865f7c69447a","uuid");
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,8 +43,10 @@ public class TransactionPage {
 	/**
 	 * Create the application.
 	 */
-	public TransactionPage(ArrayList<Transaction> transactions) {
+	public TransactionPage(ArrayList<Transaction> transactions, String host, String type) {
 		this.transactions = transactions;
+		this.host = host;
+		this.type = type;
 		initialize();
 	}
 
@@ -52,7 +55,7 @@ public class TransactionPage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 770, 380);
+		frame.setBounds(100, 100, 970, 380);
 		frame.setResizable(false);
 		frame.setTitle("Transaction");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -68,12 +71,16 @@ public class TransactionPage {
 		
 		JLabel userJLabel = new JLabel("Account ID: ");
 		userJLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		userJLabel.setBounds(10, 10, 750, 25);
+		userJLabel.setBounds(10, 10, 950, 25);
 		frame.getContentPane().add(userJLabel);
-		userJLabel.setText("Account ID: " + this.uuid);
+		if(this.type.equals("uuid")) {
+			userJLabel.setText("Account ID: " + this.host);
+		}else if(this.type.equals("Username")) {
+			userJLabel.setText("User: " + this.host);
+		}
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 750, 300);
+		scrollPane.setBounds(10, 45, 950, 300);
 		frame.getContentPane().add(scrollPane);
 		
 		//table = new JTable();
@@ -85,7 +92,7 @@ public class TransactionPage {
 		}; 
 		table.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		String[] header = {"Trans ID", "Trans Reason","Send ID", "Receiver ID", "Money","Date Time"};
+		String[] header = {"Trans ID", "Trans Reason","Send ID","Send Name", "Receiver ID","Receiver Name", "Money","Date Time"};
 		tablemodel = new DefaultTableModel(null,header);
 		loadtrans();
 		table.setModel(tablemodel);
@@ -93,8 +100,10 @@ public class TransactionPage {
 		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
-		table.getColumnModel().getColumn(4).setPreferredWidth(150);
-		table.getColumnModel().getColumn(5).setPreferredWidth(150);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(100);
+		table.getColumnModel().getColumn(6).setPreferredWidth(150);
+		table.getColumnModel().getColumn(7).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
 		
 	}
@@ -108,7 +117,9 @@ public class TransactionPage {
 			tablemodel.addRow(new String[] {transaction.gettransUUID(),
 											transaction.gettransname(),
 											transaction.getsenderUUID(),
+											transaction.getsendername(),
 											transaction.getreceiverUUID(),
+											transaction.getreceivername(),
 											String.format("%.2f", transaction.getmoney()),
 											transaction.getTransTime()});
 		}
