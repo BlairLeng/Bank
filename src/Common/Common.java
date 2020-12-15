@@ -34,6 +34,8 @@ public class Common {
 	public static final String StockTrans_Sell = "Sell";
 	public static final String NotEnoughStocks = "Not Enough Stocks!";
 	
+	public static final String NotValidLoanID = "This is not a valid Loan!";
+	
 	public static final double ServiceFee = 5.0;
 	
 }

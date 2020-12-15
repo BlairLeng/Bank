@@ -21,7 +21,6 @@ public class LoanSystemSQL {
 	}
 	
 	public static String Repayment(String AccountID, String LoanID, double money, Connection con) throws SQLException {
-		
 		Statement stmt = con.createStatement();
 		String sql = "UPDATE `loan`"
 				+ "SET loan.MoneyReturned = loan.MoneyReturned + "
@@ -31,7 +30,24 @@ public class LoanSystemSQL {
 				+ '"'
 				+ LoanID
 				+ '"';
+		
 		return Common.Success;
 	}
+	
+	public static String legalLoan(String LoanID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM loan WHERE LoanID = "
+				+ "'"
+				+ LoanID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			if (rs.getInt("Status") == 0) return Common.Success;
+			else return Common.NotValidLoanID;
+		}
+		return Common.QueryFailed;
+	}
+	
+	public static 
 
 }

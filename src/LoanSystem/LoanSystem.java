@@ -32,10 +32,12 @@ public class LoanSystem implements LoanSystemFunctions {
 			LocalDate endld = rs.getDate("EndDatetime").toLocalDate();
 			LocalTime endlt = rs.getTime("EndDatetime").toLocalTime();
 			LocalDateTime endldt = LocalDateTime.of(endld, endlt);
-			Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
-					rs.getString("Collateral"), beginldt, endldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
-					rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
-			loanList.add(loan);
+			if (rs.getInt("Status") == 0) {				
+				Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
+						rs.getString("Collateral"), beginldt, endldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
+						rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"));
+				loanList.add(loan);
+			}
 		}
 		return loanList;
 	}
@@ -47,6 +49,8 @@ public class LoanSystem implements LoanSystemFunctions {
 		result = AccountSystemSQL.checkAccountCurrencyType(AccountID, con);
 		if (result != Common.CurrencyType_USD) return Common.CurrencyTypeNotUSD;
 		result = AccountSystemSQL.checkMoney(AccountID, money, con);
+		if (result != Common.Success) return result;
+		result = LoanSystemSQL.legalLoan(LoanID, con);
 		if (result != Common.Success) return result;
 		
 		return null;
