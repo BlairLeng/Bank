@@ -9,5 +9,7 @@ public interface LoanSystemFunctions {
 	
 	public String Repayment(String AccountID, String LoanID, double money) throws SQLException;
 	
+	public Boolean getAccountHasLoans(String AccountID) throws SQLException;
+	
 	public Loan getLoanInformation(String LoanID); 
 }

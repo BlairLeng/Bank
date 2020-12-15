@@ -67,6 +67,24 @@ public class LoanSystem implements LoanSystemFunctions {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Boolean getAccountHasLoans(String AccountID) throws SQLException {
+		// TODO Auto-generated method stub
+		ResultSet rs = LoanSystemSQL.getAccountLoans(AccountID, con);
+		while (rs.next()) {
+			LocalDate beginld = rs.getDate("BeginDatetime").toLocalDate();
+			LocalTime beginlt = rs.getTime("BeginDatetime").toLocalTime();
+			LocalDateTime beginldt = LocalDateTime.of(beginld, beginlt);
+			LocalDate endld = rs.getDate("EndDatetime").toLocalDate();
+			LocalTime endlt = rs.getTime("EndDatetime").toLocalTime();
+			LocalDateTime endldt = LocalDateTime.of(endld, endlt);
+			if (rs.getInt("Status") == 0) {				
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 }
