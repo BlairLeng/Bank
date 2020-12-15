@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import com.sun.source.util.TreePathScanner;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 
 import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;
+import LoanSystem.LoanSystem;
 import TransactionSystem.Transaction;
 import TransactionSystem.TransactionSystem;
 import User.ManagerSystem;
@@ -31,6 +34,7 @@ public class AccountPage {
 
 	private JFrame frmAccount;
 	private AccountSystem accountSystem;
+	private String type;
 	private String name;
 	private String uuid;
 	private JLabel userField;
@@ -63,6 +67,7 @@ public class AccountPage {
 	public AccountPage(String name, String type,AccountSystem accountSystem,String uuid) {
 		this.name = name;
 		this.uuid = uuid;
+		this.type = type;
 		this.accountSystem = accountSystem;
 		if(type.equals("Customer")) {
 			initialize_asCustomer();
@@ -369,10 +374,15 @@ public class AccountPage {
 		new TransactionPage(transactions,this.uuid,"uuid");
 	}
 	private void clickApplyLoanbutton() {
-	
+		new ApplyLoanPage(this);
 	}
 	private void clickLoanInfobutton() {
-		
+		LoanSystem loanSystem = new LoanSystem(this.accountSystem.con);
+		if(this.type.equals("Customer")){
+			new LoanInfoPage("Customer",this.uuid, loanSystem);
+		}else if(this.type.equals("Manager")) {
+			new LoanInfoPage("Manager",this.uuid, loanSystem);
+		}
 	}
 	
 	public String Deposit(double money) {
@@ -397,6 +407,15 @@ public class AccountPage {
 		String resultString = new String();
 		try {
 			resultString = this.accountSystem.MakeTransaction(this.uuid, receiverID, money, transName);
+		}catch (Exception e) {
+			return String.valueOf(e);
+		}
+		return resultString;
+	}
+	public String ApplyLoan(double money,int time,double interestRate,String loanName,String loanReason,String collateral) {
+		String resultString = new String();
+		try {
+			resultString = this.accountSystem.RequestLoan(this.uuid, money, time, interestRate, loanName, loanReason, collateral);
 		}catch (Exception e) {
 			return String.valueOf(e);
 		}

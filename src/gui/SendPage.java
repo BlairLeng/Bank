@@ -140,7 +140,7 @@ public class SendPage {
 		String moneyString = moneyField.getText();
 		String reasonString = reasonField.getText();
 		if(receiverString.length() == 0) {
-			JOptionPane.showMessageDialog(frame.getContentPane(), "Please Type Receiver ID", "Warning",JOptionPane.WARNING_MESSAGE); 
+			JOptionPane.showMessageDialog(frame.getContentPane(), "Please Type in Receiver ID", "Warning",JOptionPane.WARNING_MESSAGE); 
 		}else if(moneyString.length() == 0) {
 			JOptionPane.showMessageDialog(frame.getContentPane(), "Please Type in Money", "Warning",JOptionPane.WARNING_MESSAGE); 
 		}else if(reasonString.length() >= 100){

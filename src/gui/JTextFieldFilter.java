@@ -6,6 +6,7 @@ import javax.swing.text.PlainDocument;
 
 class JTextFieldFilter extends PlainDocument {
 	public static final String DOUBLE = "0123456789.";
+	public static final String INTEGER = "0123456789";
 	protected String acceptedChars = null;
 	protected boolean negativeAccepted = false;
 	public JTextFieldFilter() {
