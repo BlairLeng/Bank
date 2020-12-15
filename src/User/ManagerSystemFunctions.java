@@ -2,6 +2,7 @@ package User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Account.Account;
 import LoanSystem.Loan;
@@ -23,5 +24,5 @@ public interface ManagerSystemFunctions {
 	
 	public ArrayList<Loan> UnapprovedLoan() throws Exception;
 
-	public ArrayList<String> GetDayReport(LocalDate date) throws Exception;
+	public HashMap<String, Double[][]> GetDayReport(LocalDate date) throws Exception;
 }

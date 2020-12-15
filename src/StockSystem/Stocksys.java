@@ -94,4 +94,42 @@ public class Stocksys implements StockSystemFunctions {
 		return al;
 	}
 
+	@Override
+	public Double AccountBuyMoney(String accountid) throws Exception {
+		ResultSet rs = StockSystemSQL.viewaccountstockstrans(conn, accountid);
+		Double money = 0.0;
+		while (rs.next()) {
+			if (rs.getString("TransName").equals(Common.StockTrans_Buy)) {
+				money += rs.getDouble("Price") * rs.getInt("Amount");
+			}
+		}
+		return money;
+	}
+
+	@Override
+	public Double AccountSellMoney(String accountid) throws Exception {
+		ResultSet rs = StockSystemSQL.viewaccountstockstrans(conn, accountid);
+		Double money = 0.0;
+		while (rs.next()) {
+			if (rs.getString("TransName").equals(Common.StockTrans_Sell)) {
+				money += rs.getDouble("Price") * rs.getInt("Amount");
+			}
+		}
+		return money;
+	}
+
+	@Override
+	public Double AccountStockMoney(String accountid) throws Exception {
+		ResultSet rs = StockSystemSQL.viewaccountstocks(conn, accountid);
+		Double money = 0.0;
+		while (rs.next()) {
+			String stockid = rs.getString("StockID");
+			int amount = rs.getInt("Amount");
+			ResultSet rs1 = StockSystemSQL.getstock(conn, stockid);
+			rs1.next();
+			money += amount * rs1.getString("Price");
+		}
+		return money;
+	}
+
 }

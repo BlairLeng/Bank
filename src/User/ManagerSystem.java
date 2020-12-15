@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import Account.Account;
@@ -34,6 +35,15 @@ public class ManagerSystem implements ManagerSystemFunctions {
 		LocalTime lt = rs.getTime(s).toLocalTime();
 		LocalDateTime ldt = LocalDateTime.of(ld, lt);
 		return ldt;
+	}
+	
+	public int getcurrencytype(String type) {
+		if(type.equals(Common.CurrencyType_CNY))
+			return 0;
+		else if(type.equals(Common.CurrencyType_EUR))
+			return 1;
+		else 
+			return 2;
 	}
 
 	@Override
@@ -116,55 +126,63 @@ public class ManagerSystem implements ManagerSystemFunctions {
 	}
 
 	@Override
-	public ArrayList<String> GetDayReport(LocalDate date) throws Exception {
-		ArrayList<String> al = new ArrayList<String>();
-		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
-		al.add("Transaction report:");
-		double totaltransmoney = 0, totalwithdrawmoney = 0, totaldepositmoney = 0, totalloanmoney = 0,
-				totalservicemoney = 0, totalrepaymoney = 0;
-		int totaltranstime = 0, totalwithdrawtime = 0, totaldeposittime = 0, totalloantime = 0, totalrepaytime = 0;
-		while (rs.next()) {
-			double money = rs.getDouble("Money");
-			switch (rs.getString("TransName")) {
-			case Common.TransName_Withdraw:
-				totalwithdrawmoney += money;
-				totalwithdrawtime++;
-				break;
-			case Common.TransName_Deposit:
-				totaldepositmoney += money;
-				totaldeposittime++;
-				break;
-			case Common.TransName_trans:
-				totaltransmoney += money;
-				totaltranstime++;
-				break;
-			case Common.TransName_Loan:
-				totalloanmoney += money;
-				totalloantime++;
-				break;
-			case Common.TransName_Repay:
-				totalrepaymoney += money;
-				totalrepaytime++;
-				break;
-			case Common.TransName_ServiceFee:
-				totalservicemoney += money;
-				break;
-
+	public HashMap<String, Double[][]> GetDayReport(LocalDate date) throws Exception {
+		HashMap<String, Double[][]> map=new HashMap<String,Double[][]>();
+		Double [][] trans = new Double[3][2];
+		Double [][] withdraw = new Double[3][2];
+		Double [][] deposit = new Double[3][2];
+		Double [][] loan = new Double[3][2];
+		Double [][] service = new Double[3][2];
+		Double [][] repay = new Double[3][2];
+		for(int i=0;i<3;i++) {
+			for(int j=0;j<2;j++) {
+				trans[i][j]=0.0;
+				withdraw[i][j]=0.0;
+				deposit[i][j]=0.0;
+				loan[i][j]=0.0;
+				service[i][j]=0.0;
+				repay[i][j]=0.0;
 			}
 		}
-		al.add("Total transaction money:" + String.valueOf(totaltransmoney));
-		al.add("Total transaction time:" + String.valueOf(totaltranstime));
-		al.add("Total withdraw money:" + String.valueOf(totalwithdrawmoney));
-		al.add("Total withdraw time:" + String.valueOf(totalwithdrawtime));
-		al.add("Total deposit money:" + String.valueOf(totaldepositmoney));
-		al.add("Total deposit time:" + String.valueOf(totaldeposittime));
-		al.add("Total loan money:" + String.valueOf(totalloanmoney));
-		al.add("Total loan time:" + String.valueOf(totalloantime));
-		al.add("Total repay money:" + String.valueOf(totalrepaymoney));
-		al.add("Total repay time:" + String.valueOf(totalrepaytime));
-		al.add("Total service fee:" + String.valueOf(totalservicemoney));
-
-		return al;
+		ResultSet rs = ManagerSystemSQL.getdaytrans(conn, date);
+		while(rs.next()) {
+			double money = rs.getDouble("Money");
+			String accounttype=AccountSystemSQL.getAccountType(rs.getString("SenderID"), conn);
+			switch(rs.getString("Transname")){
+			case Common.TransName_trans:
+				trans[getcurrencytype(accounttype)][0]+=money;
+				trans[getcurrencytype(accounttype)][1]++;
+				break;
+			case Common.TransName_Withdraw:
+				withdraw[getcurrencytype(accounttype)][0]+=money;
+				withdraw[getcurrencytype(accounttype)][1]++;
+				break;
+			case Common.TransName_Deposit:
+				deposit[getcurrencytype(accounttype)][0]+=money;
+				deposit[getcurrencytype(accounttype)][1]++;
+				break;
+			case Common.TransName_Loan:
+				loan[getcurrencytype(accounttype)][0]+=money;
+				loan[getcurrencytype(accounttype)][1]++;
+				break;
+			case Common.TransName_ServiceFee:
+				service[getcurrencytype(accounttype)][0]+=money;
+				service[getcurrencytype(accounttype)][1]++;
+				break;
+			case Common.TransName_Repay:
+				repay[getcurrencytype(accounttype)][0]+=money;
+				repay[getcurrencytype(accounttype)][1]++;
+				break;
+			}
+		}
+		map.put(Common.TransName_Deposit, trans);
+		map.put(Common.TransName_Loan, loan);
+		map.put(Common.TransName_Repay, repay);
+		map.put(Common.TransName_ServiceFee, service);
+		map.put(Common.TransName_trans, trans);
+		map.put(Common.TransName_Withdraw, withdraw);
+		
+		return map;
 	}
 
 	@Override

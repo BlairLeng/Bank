@@ -18,5 +18,11 @@ public interface StockSystemFunctions {
 	public ArrayList<Accountstock> viewAccountStocks(String accountid) throws Exception;
 
 	public ArrayList<StockTrans> viewAccountStocksTrans(String accountid) throws Exception;
+	
+	public Double AccountBuyMoney(String accountid) throws Exception;
+	
+	public Double AccountSellMoney(String accountid) throws Exception;
+	
+	public Double AccountStockMoney(String accountid) throws Exception;
 
 }
