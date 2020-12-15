@@ -21,9 +21,9 @@ public class Loan {
 	public Loan(String AccountID, double moneyOwed, int daysLoaned, double interestRate,
 			String loanName, String loanReason, String collateral) {
 		this.AccountID = AccountID;
-		this.moneyLoaned = moneyLoaned * Math.pow(interestRate, daysLoaned);
 		this.interestRate = interestRate;
-		this.moneyOwed = moneyOwed;
+		this.moneyLoaned = this.moneyLoaned;
+		this.moneyOwed = moneyLoaned * Math.pow(interestRate, daysLoaned);
 		this.LoanName = loanName;
 		this.LoanReason = loanReason;
 		this.beginTime = LocalDateTime.now();

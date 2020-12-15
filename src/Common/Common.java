@@ -25,6 +25,8 @@ public class Common {
 	public static final String CurrencyType_USD = "USD";
 	public static final String CurrencyType_EUR = "EUR";
 	public static final String CurrencyType_CNY = "CNY";
+
+	public static final String CurrencyTypeNotUSD = "This is not in USD!";
 	
 	public static final String TypeDifference = "Not the same type account!";
 	

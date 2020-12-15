@@ -77,6 +77,20 @@ public class AccountSystemSQL {
 		return Common.NotEnoughMoney;
 	}
 	
+	public static String checkAccountCurrencyType(String AccountID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM account WHERE AccountID = "
+				+ "'"
+				+ AccountID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()){			
+			String AccountCurrencyType = rs.getString("CurrencyType");
+			return AccountCurrencyType;
+		}
+		return Common.QueryFailed;
+	}
+	
 	public static String TakeServiceFee(Transaction t, Connection con) throws SQLException {
 		Statement stmt = con.createStatement();
 		String sql = "INSERT INTO `trans` "
