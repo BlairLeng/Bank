@@ -175,7 +175,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 				break;
 			}
 		}
-		map.put(Common.TransName_Deposit, trans);
+		map.put(Common.TransName_Deposit, deposit);
 		map.put(Common.TransName_Loan, loan);
 		map.put(Common.TransName_Repay, repay);
 		map.put(Common.TransName_ServiceFee, service);
