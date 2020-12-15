@@ -7,6 +7,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import AccountSystem.AccountSystemSQL;
+
+
 public class TransactionSystem implements TransactionSystemFunctions{
 	public Connection conn;
 	
@@ -60,6 +63,12 @@ public class TransactionSystem implements TransactionSystemFunctions{
 	public ArrayList<Transaction> AccountTrans(String accountid) throws Exception{
 		ArrayList<Transaction> al=new ArrayList<Transaction>();
 		ResultSet rs=TransactionSystemSQL.viewaccounttrans(accountid, conn);
+		String sid=rs.getString("SenderID");
+		String rid=rs.getString("ReceiverID");
+		ResultSet rs1=AccountSystemSQL.QueryAccountInformation(sid, conn);
+		ResultSet rs2=AccountSystemSQL.QueryAccountInformation(rid, conn);
+		rs1.next();
+		rs2.next();
 		while(rs.next()) {
 			LocalDate ld=rs.getDate("Datetime").toLocalDate();
 			LocalTime lt=rs.getTime("Datetime").toLocalTime();
@@ -69,8 +78,10 @@ public class TransactionSystem implements TransactionSystemFunctions{
 					rs.getDouble("Money"), 
 					rs.getString("TransName"), 
 					rs.getString("TransID"), 
-					rs.getString("SenderID"), 
-					rs.getString("ReceiverID")
+					sid, 
+					rid,
+					rs1.getString("Username"),
+					rs2.getString("Username")
 					);
 			al.add(t);
 		}

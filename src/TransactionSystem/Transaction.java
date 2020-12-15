@@ -1,8 +1,10 @@
 package TransactionSystem;
 
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+
 
 public class Transaction {
 	
@@ -15,6 +17,8 @@ public class Transaction {
 	private UUID transid;
 	private String transidstring;
 	private String transname;
+	private String sendername;
+	private String receivername;
 	
 	public Transaction(UUID suid,UUID ruid,double money,String transname) {
 		this.transferTime=LocalDateTime.now();
@@ -40,6 +44,20 @@ public class Transaction {
 		//this.receiverUUID= UUID.fromString(this.receiverUUIDstring);
 	}
 	
+	public Transaction(LocalDateTime transtime,double money,String transname,String transids,String suids,String ruids,String sendername,String receivername) {
+		this.transferTime=transtime;
+		this.money=money;
+		this.transidstring=transids;
+		this.receiverUUIDstring=ruids;
+		this.senderUUIDstring=suids;
+		this.transname=transname;
+		this.sendername=sendername;
+		this.receivername=receivername;
+		//this.transid= UUID.fromString(this.transidstring);
+		//this.senderUUID= UUID.fromString(this.senderUUIDstring);
+		//this.receiverUUID= UUID.fromString(this.receiverUUIDstring);
+	}
+	
 	public String getTransTime() {
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	    String formattedDate = transferTime.format(myFormatObj);
@@ -47,11 +65,11 @@ public class Transaction {
 	}
 	
 	public String getsendername() {
-		return null;
+		return this.sendername;
 	}
 	
 	public String getreceivername() {
-		return null;
+		return this.receivername;
 	}
 	
 	public String getsenderUUID() {
