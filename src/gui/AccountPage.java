@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;
+import TransactionSystem.Transaction;
+import TransactionSystem.TransactionSystem;
 import User.ManagerSystem;
 
 import java.awt.event.MouseAdapter;
@@ -317,6 +319,7 @@ public class AccountPage {
 		loaninfoButton.setBounds(435, 145, 150, 25);
 		frmAccount.getContentPane().add(loaninfoButton);
 	}
+	
 	public void refreshInfo() {
 		Account account = null;
 		try {
@@ -354,7 +357,15 @@ public class AccountPage {
 		new SendPage(this);
 	}
 	private void clickTransbutton() {
-	
+		TransactionSystem transactionSystem = new TransactionSystem(this.accountSystem.con);
+		ArrayList<Transaction> transactions = new ArrayList<>();
+		try {
+			transactions = transactionSystem.AccountTrans(this.uuid);
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(frmAccount.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
+			return;
+		}
+		new TransactionPage(transactions);
 	}
 	private void clickApplyLoanbutton() {
 	
