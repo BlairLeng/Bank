@@ -18,12 +18,12 @@ public class Loan {
 	private double interestRate;
 	private int Status;
 
-	public Loan(String AccountID, double moneyOwed, int daysLoaned, double interestRate,
+	public Loan(String AccountID, double moneyLoaned, int daysLoaned, double interestRate,
 			String loanName, String loanReason, String collateral) {
 		this.AccountID = AccountID;
 		this.interestRate = interestRate;
-		this.moneyLoaned = this.moneyLoaned;
-		this.moneyOwed = moneyLoaned * Math.pow(interestRate, daysLoaned);
+		this.moneyLoaned = moneyLoaned;
+		this.moneyOwed = this.moneyLoaned * Math.pow(interestRate, daysLoaned);
 		this.LoanName = loanName;
 		this.LoanReason = loanReason;
 		this.beginTime = LocalDateTime.now();
