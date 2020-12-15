@@ -32,7 +32,7 @@ public class LoanSystem implements LoanSystemFunctions {
 			LocalDate endld = rs.getDate("EndDatetime").toLocalDate();
 			LocalTime endlt = rs.getTime("EndDatetime").toLocalTime();
 			LocalDateTime endldt = LocalDateTime.of(endld, endlt);
-			if (rs.getInt("Status") == 0) {				
+			if (rs.getInt("Status") == 0 || rs.getInt("Status") == 1) {				
 				Loan loan = new Loan(rs.getString("AccountID"), rs.getString("LoanName"), rs.getString("LoanReason"),
 						rs.getString("Collateral"), beginldt, endldt, rs.getDouble("MoneyLoaned"), rs.getDouble("MoneyReturned"),
 						rs.getDouble("MoneyOwed"), rs.getDouble("InterestRate"), rs.getInt("Status"), rs.getString("LoanID"));
