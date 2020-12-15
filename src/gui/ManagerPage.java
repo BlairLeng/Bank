@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import Account.Account;
 import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;
+import LoanSystem.LoanSystem;
 import TransactionSystem.Transaction;
 import User.ManagerSystem;
 import java.awt.event.MouseAdapter;
@@ -163,25 +164,43 @@ public class ManagerPage {
 		//table = new JTable();
 		// set cell not editable
 		table = new JTable(){
+			@Override
 			public boolean isCellEditable(int row, int column){
 				return false;
 		    }
+			@Override
+		    public java.awt.Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {  
+		        int modelRow = convertRowIndexToModel(row);  
+		        int modelColumn = convertColumnIndexToModel(column);  
+		        java.awt.Component comp = super.prepareRenderer(renderer, row, column);  
+		        if (!isRowSelected(modelRow)) {
+		        	String hasloan = String.valueOf(getModel().getValueAt(modelRow, 6));
+		            if (hasloan.equals("1"))                   //此处加入条件判断
+	                   comp.setBackground(java.awt.Color.RED);
+		            else                                                     //不符合条件的保持原表格样式
+	                   comp.setBackground(table.getBackground());
+		        }
+		        return comp;
+		    }
 		}; 
+
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		String[] header = {"Account ID","User Name", "Account Type","Currency", "Balance", "Date","Loan"};
 		tablemodel = new DefaultTableModel(null,header);
 		refreshaccountlist();
 		table.setModel(tablemodel);
+		
 		table.getColumnModel().getColumn(0).setPreferredWidth(90);
 		table.getColumnModel().getColumn(1).setPreferredWidth(70);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setPreferredWidth(70);
 		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(5).setPreferredWidth(150);
-		table.getColumnModel().getColumn(5).setPreferredWidth(90);
+		table.getColumnModel().getColumn(6).setPreferredWidth(90);
 		scrollPane.setViewportView(table);
 	}
 	public void refreshaccountlist() {
+		LoanSystem loanSystem = new LoanSystem(this.managerSystem.conn);
 		ArrayList<Account> accounts = new ArrayList<>();
 		try {
 			accounts = this.managerSystem.Allaccounts();
@@ -194,13 +213,27 @@ public class ManagerPage {
 		}
 		for(int i = 0;i<accounts.size();i++) {
 			Account account = accounts.get(i);
-			tablemodel.addRow(new String[] {account.getUUID(),
-											account.getCustomerName(),
-											account.getType(),
-											account.getCurrencyType(),
-											String.format("%.2f", account.getCurrentBalance()),
-											account.getOpenTime(),
-											"0"});
+			try {
+				if(loanSystem.getAccountHasLoans(account.getUUID())) {
+					tablemodel.addRow(new String[] {account.getUUID(),
+							account.getCustomerName(),
+							account.getType(),
+							account.getCurrencyType(),
+							String.format("%.2f", account.getCurrentBalance()),
+							account.getOpenTime(),
+							"1"});
+				}else {
+					tablemodel.addRow(new String[] {account.getUUID(),
+							account.getCustomerName(),
+							account.getType(),
+							account.getCurrencyType(),
+							String.format("%.2f", account.getCurrentBalance()),
+							account.getOpenTime(),
+							"0"});
+				}
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 	}
 	public void clickEnterbutton() {
@@ -222,8 +255,6 @@ public class ManagerPage {
 		new TransactionPage(transactions,usernameString,"Username");
 	}
 	public void clickDailyReportbutton() {
-		int item = table.getSelectedRow();
-		String usernameString = String.valueOf(tablemodel.getValueAt(item, 1));
 		HashMap<String, Double[][]> report = new HashMap<>();
 		try {
 			report = this.managerSystem.GetDayReport(LocalDate.now());
@@ -232,9 +263,10 @@ public class ManagerPage {
 			System.out.println(e);
 			return;
 		}
+		
 	}
 	public void clickLoanRequestbutton() {
-		
+		new LoanRequestPage(this.username, this.managerSystem);
 	}
 	public void clickStockSystembutton() {
 		

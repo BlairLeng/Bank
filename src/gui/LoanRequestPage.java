@@ -17,19 +17,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Account.Account;
 import Database.DatabaseConnection;
 import LoanSystem.Loan;
 import LoanSystem.LoanSystem;
+import User.ManagerSystem;
 
-public class LoanInfoPage {
+public class LoanRequestPage {
 
 	private JFrame frame;
 	private JTable table;
 	private DefaultTableModel tablemodel;
-	private String type;
-	private String uuid;
-	private LoanSystem loanSystem;
+	private String username;
+	private ManagerSystem managerSystem;
 
 	/**
 	 * Launch the application.
@@ -39,8 +38,8 @@ public class LoanInfoPage {
 			public void run() {
 				try {
 					Connection connection = DatabaseConnection.getConnection();
-					LoanSystem loanSystem = new LoanSystem(connection);
-					LoanInfoPage window = new LoanInfoPage("Customer","98cca13b-70a4-46cc-9912-66e6559537c9",loanSystem);
+					ManagerSystem managerSystem = new ManagerSystem(connection);
+					LoanRequestPage window = new LoanRequestPage("root",managerSystem);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,10 +51,9 @@ public class LoanInfoPage {
 	/**
 	 * Create the application.
 	 */
-	public LoanInfoPage(String type, String uuid,LoanSystem loanSystem) {
-		this.type = type;
-		this.uuid = uuid;
-		this.loanSystem = loanSystem;
+	public LoanRequestPage(String username,ManagerSystem managerSystem) {
+		this.username = username;
+		this.managerSystem = managerSystem;
 		initialize();
 		frame.setVisible(true);
 	}
@@ -66,11 +64,8 @@ public class LoanInfoPage {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setResizable(false);
-		if(this.type.equals("Customer")) {
-			frame.setBounds(100, 100, 600, 400);
-		}else if(this.type.equals("Manager")) {
-			frame.setBounds(100, 100, 500, 400);
-		}
+		frame.setBounds(100, 100, 600, 400);
+
 		
 		frame.setTitle("Bank");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -88,42 +83,18 @@ public class LoanInfoPage {
 		userJLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		userJLabel.setBounds(10, 10, 460, 25);
 		frame.getContentPane().add(userJLabel);
-		userJLabel.setText("Account ID: " + this.uuid);
+		userJLabel.setText("User Name: " + this.username);
 		
-//		JButton refreshButton = new JButton("Refresh");
-//		refreshButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-//		refreshButton.setBounds(480, 10, 100, 25);
-//		refreshButton.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				//refreshaccountlist();
-//			}
-//		});
-//		frame.getContentPane().add(refreshButton);
-		
-		if(this.type.equals("Customer")) {
-			JButton repayButton = new JButton("Repay");
-			repayButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-			repayButton.setBounds(480, 45, 100, 25);
-			repayButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					clickrepaybutton();
-				}
-			});
-			frame.getContentPane().add(repayButton);
-		}
-		
-//		JButton createJButton = new JButton("Create");
-//		createJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-//		createJButton.setBounds(480, 100, 100, 25);
-//		createJButton.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				//clickcreatebutton();
-//			}
-//		});
-//		frame.getContentPane().add(createJButton);
+		JButton approveButton = new JButton("Approve");
+		approveButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		approveButton.setBounds(480, 45, 100, 25);
+		approveButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				clickapprovebutton();
+			}
+		});
+		frame.getContentPane().add(approveButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 45, 460, 300);
@@ -159,7 +130,7 @@ public class LoanInfoPage {
 	public void refreshloanlist() {
 		ArrayList<Loan> loans = new ArrayList<>();
 		try {
-			loans = this.loanSystem.getAccountLoans(uuid);
+			loans = this.managerSystem.UnapprovedLoan();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,6 +147,8 @@ public class LoanInfoPage {
 				statuString = "Processing";
 			}else if(status == 1) {
 				statuString = "Completed";
+			}else if(status == -1) {
+				statuString = "Unapproved";
 			}
 			tablemodel.addRow(new String[] {loan.getID(),
 											loan.getLoanName(),
@@ -190,21 +163,21 @@ public class LoanInfoPage {
 											statuString});
 		}
 	}
-	private void clickrepaybutton() {
-		new RepayLoanPage(this);
-	}
-	public String repay(double money) {
+	private void clickapprovebutton() {
 		String resultString = new String();
 		int item = table.getSelectedRow();
 		String loanid = String.valueOf(tablemodel.getValueAt(item, 0));
 		if(loanid.length() == 0) {
-			return "Please Select a Loan!"; 
+			resultString = "Please Select a Loan!";
+		}else {
+			try {
+				resultString = this.managerSystem.ApproveLoan(loanid);
+			}catch (Exception e) {
+				resultString = String.valueOf(e);
+			}
+			refreshloanlist();
+			JOptionPane.showMessageDialog(frame.getContentPane(), resultString, "Warning",JOptionPane.WARNING_MESSAGE); 
 		}
-		try {
-			resultString = this.loanSystem.Repayment(this.uuid, loanid, money);
-		}catch (Exception e) {
-			return String.valueOf(e);
-		}
-		return resultString;
 	}
+
 }
