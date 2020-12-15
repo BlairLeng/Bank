@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -223,7 +224,7 @@ public class ManagerPage {
 	public void clickDailyReportbutton() {
 		int item = table.getSelectedRow();
 		String usernameString = String.valueOf(tablemodel.getValueAt(item, 1));
-		ArrayList<String> report = new ArrayList<>();
+		HashMap<String, Double[][]> report = new HashMap<>();
 		try {
 			report = this.managerSystem.GetDayReport(LocalDate.now());
 		}catch(Exception e) {

@@ -13,8 +13,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.cj.xdevapi.Table;
-
 import Account.Account;
 import AccountSystem.AccountSystem;
 import Database.DatabaseConnection;

@@ -48,6 +48,7 @@ public class TransactionPage {
 		this.host = host;
 		this.type = type;
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class TransactionPage {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 970, 380);
+		frame.setBounds(100, 100, 980, 500);
 		frame.setResizable(false);
 		frame.setTitle("Transaction");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,7 +81,7 @@ public class TransactionPage {
 		}
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 45, 950, 300);
+		scrollPane.setBounds(10, 45, 950, 400);
 		frame.getContentPane().add(scrollPane);
 		
 		//table = new JTable();
