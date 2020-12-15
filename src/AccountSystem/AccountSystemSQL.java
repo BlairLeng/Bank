@@ -132,6 +132,21 @@ public class AccountSystemSQL {
 		return Common.Success;
 	}
 	
+	public static String giveMoney(String AccountID, double moneyLoaned, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		double totalMoney = getMoney(AccountID, con) + moneyLoaned;
+		String sql = "UPDATE `account` "
+				+ "SET account.CurrentBalance = "
+				+ totalMoney 
+				+ " "
+				+ "WHERE account.AccountID = "
+				+ '"'
+				+ AccountID
+				+ '"';
+		Boolean rs1 = stmt.execute(sql);
+		return Common.Success;
+	}
+	
 	public static double getMoney(String AccountID, Connection con) throws SQLException {
 		double money = 0;
 		Statement stmt = con.createStatement();

@@ -11,5 +11,5 @@ public interface LoanSystemFunctions {
 	
 	public Boolean getAccountHasLoans(String AccountID) throws SQLException;
 	
-	public Loan getLoanInformation(String LoanID); 
+	public Loan getLoanInformation(String LoanID) throws SQLException, Exception; 
 }

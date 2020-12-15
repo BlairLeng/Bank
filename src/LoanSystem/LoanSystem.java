@@ -3,6 +3,7 @@ package LoanSystem;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -63,8 +64,9 @@ public class LoanSystem implements LoanSystemFunctions {
 	}
 
 	@Override
-	public Loan getLoanInformation(String LoanID) {
+	public Loan getLoanInformation(String LoanID) throws Exception {
 		// TODO Auto-generated method stub
+
 		return null;
 	}
 

@@ -73,5 +73,32 @@ public class LoanSystemSQL {
 		}
 		return money;
 	}
+	
+	
+	public static String getLoanAccountID(String LoanID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM loan WHERE LoanID = "
+				+ "'"
+				+ LoanID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			return rs.getString("AccountID");
+		}		
+		return Common.QueryFailed;
+	}
+	
+	public static double getLoanMoney(String LoanID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM loan WHERE LoanID = "
+				+ "'"
+				+ LoanID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			return rs.getDouble("MoneyLoaned");
+		}		
+		return -1;
+	}
 
 }

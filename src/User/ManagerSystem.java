@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.UUID;
 
 import Account.Account;
 import Account.CheckingAccount;
@@ -21,6 +22,7 @@ import TransactionSystem.Transaction;
 import Database.DatabaseConnection;
 import Database.DatabaseTables;
 import LoanSystem.Loan;
+import LoanSystem.LoanSystemSQL;
 
 public class ManagerSystem implements ManagerSystemFunctions {
 
@@ -187,7 +189,17 @@ public class ManagerSystem implements ManagerSystemFunctions {
 
 	@Override
 	public String ApproveLoan(String loanid) throws Exception {
-		return ManagerSystemSQL.approveloan(conn, loanid);
+		String result = ManagerSystemSQL.approveloan(conn, loanid);
+		if (result != Common.Success) return result;
+		String accid = LoanSystemSQL.getLoanAccountID(loanid, conn);
+		if (accid != Common.QueryFailed) {
+			double moneyLoaned = LoanSystemSQL.getLoanMoney(loanid, conn);
+			AccountSystemSQL.giveMoney(accid, moneyLoaned ,conn);
+			Transaction t = new Transaction(LocalDateTime.now(), moneyLoaned, Common.TransName_Loan, UUID.randomUUID().toString(), accid, accid);
+			AccountSystemSQL.MakeTransaction(t, conn);
+			return Common.Success;
+		}
+		return Common.Failed;
 	}
 
 	@Override
