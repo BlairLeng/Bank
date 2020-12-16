@@ -166,17 +166,19 @@ public class LoanRequestPage {
 	private void clickapprovebutton() {
 		String resultString = new String();
 		int item = table.getSelectedRow();
-		String loanid = String.valueOf(tablemodel.getValueAt(item, 0));
-		if(loanid.length() == 0) {
-			resultString = "Please Select a Loan!";
-		}else {
-			try {
-				resultString = this.managerSystem.ApproveLoan(loanid);
-			}catch (Exception e) {
-				resultString = String.valueOf(e);
+		if(item >= 0) {
+			String loanid = String.valueOf(tablemodel.getValueAt(item, 0));
+			if(loanid.length() == 0) {
+				resultString = "Please Select a Loan!";
+			}else {
+				try {
+					resultString = this.managerSystem.ApproveLoan(loanid);
+				}catch (Exception e) {
+					resultString = String.valueOf(e);
+				}
+				refreshloanlist();
+				JOptionPane.showMessageDialog(frame.getContentPane(), resultString, "Warning",JOptionPane.WARNING_MESSAGE); 
 			}
-			refreshloanlist();
-			JOptionPane.showMessageDialog(frame.getContentPane(), resultString, "Warning",JOptionPane.WARNING_MESSAGE); 
 		}
 	}
 

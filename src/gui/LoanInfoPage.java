@@ -191,19 +191,25 @@ public class LoanInfoPage {
 		}
 	}
 	private void clickrepaybutton() {
-		new RepayLoanPage(this);
+		String resultString = new String();
+		int item = table.getSelectedRow();
+		if(item >= 0) {
+			new RepayLoanPage(this);
+		}
 	}
 	public String repay(double money) {
 		String resultString = new String();
 		int item = table.getSelectedRow();
-		String loanid = String.valueOf(tablemodel.getValueAt(item, 0));
-		if(loanid.length() == 0) {
-			return "Please Select a Loan!"; 
-		}
-		try {
-			resultString = this.loanSystem.Repayment(this.uuid, loanid, money);
-		}catch (Exception e) {
-			return String.valueOf(e);
+		if(item >= 0) {
+			String loanid = String.valueOf(tablemodel.getValueAt(item, 0));
+			if(loanid.length() == 0) {
+				return "Please Select a Loan!"; 
+			}
+			try {
+				resultString = this.loanSystem.Repayment(this.uuid, loanid, money);
+			}catch (Exception e) {
+				return String.valueOf(e);
+			}
 		}
 		return resultString;
 	}
