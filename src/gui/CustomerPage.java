@@ -191,7 +191,9 @@ public class CustomerPage {
 	}
 	private void clickenterbutton() {
 		int item = table.getSelectedRow();
-		String uuidString = String.valueOf(tablemodel.getValueAt(item, 0));
-		new AccountPage(this.username,"Customer",new AccountSystem(this.userSystem.con),uuidString);
+		if(item >= 0) {
+			String uuidString = String.valueOf(tablemodel.getValueAt(item, 0));
+			new AccountPage(this.username,"Customer",new AccountSystem(this.userSystem.con),uuidString);
+		}
 	}
 }
