@@ -151,10 +151,6 @@ public class ManagerSystem implements ManagerSystemFunctions {
 			double money = rs.getDouble("Money");
 			String accounttype=AccountSystemSQL.getAccountType(rs.getString("SenderID"), conn);
 			switch(rs.getString("Transname")){
-			case Common.TransName_trans:
-				trans[getcurrencytype(accounttype)][0]+=money;
-				trans[getcurrencytype(accounttype)][1]++;
-				break;
 			case Common.TransName_Withdraw:
 				withdraw[getcurrencytype(accounttype)][0]+=money;
 				withdraw[getcurrencytype(accounttype)][1]++;
@@ -174,6 +170,10 @@ public class ManagerSystem implements ManagerSystemFunctions {
 			case Common.TransName_Repay:
 				repay[getcurrencytype(accounttype)][0]+=money;
 				repay[getcurrencytype(accounttype)][1]++;
+				break;
+			default:
+				trans[getcurrencytype(accounttype)][0]+=money;
+				trans[getcurrencytype(accounttype)][1]++;
 				break;
 			}
 		}
