@@ -116,7 +116,7 @@ public class LoanSystemSQL {
 						+ "SET loan.Status = "
 						+ 1
 						+ " "
-						+ "WHERE account.AccountID = "
+						+ "WHERE loan.AccountID = "
 						+ '"'
 						+ LoanID
 						+ '"';
