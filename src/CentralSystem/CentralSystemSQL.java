@@ -21,7 +21,7 @@ public class CentralSystemSQL {
 	
 	public static String UpdateMoney(ArrayList<String> AccountIDList, HashMap<String, Integer> hash, Connection con) throws SQLException {
 		Statement stmt = con.createStatement();
-		for (int i = 0; i <= AccountIDList.size(); i++) {	
+		for (int i = 0; i < AccountIDList.size(); i++) {	
 			String tempAccId = AccountIDList.get(i);
 			double currentMoney = AccountSystemSQL.getMoney(tempAccId, con);
 			double totalMoney = currentMoney + currentMoney * Math.pow(Common.SavingInterestRate, hash.get(tempAccId));
