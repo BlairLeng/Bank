@@ -37,7 +37,8 @@ public class CentralSystem implements CentralSystemFunctions{
 			LocalTime lt = rs.getTime("LastTime").toLocalTime();
 			LocalDateTime lastTimeldt = LocalDateTime.of(ld, lt);
 			difference = (int) ChronoUnit.DAYS.between(lastTimeldt, ldt);
-			if (rs.getDouble("CurrentBalance") > Common.HighBalance) {				
+			if ((rs.getDouble("CurrentBalance") > Common.HighBalance)
+					&& rs.getString("Type").equals("SavingAccount")) {				
 				hash.put(accid, difference);
 				AccountIDList.add(accid);
 			}

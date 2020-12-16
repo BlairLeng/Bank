@@ -24,7 +24,7 @@ public class CentralSystemSQL {
 		for (int i = 0; i < AccountIDList.size(); i++) {	
 			String tempAccId = AccountIDList.get(i);
 			double currentMoney = AccountSystemSQL.getMoney(tempAccId, con);
-			double totalMoney = currentMoney + currentMoney * Math.pow(Common.SavingInterestRate, hash.get(tempAccId));
+			double totalMoney = currentMoney * Math.pow(Common.SavingInterestRate, hash.get(tempAccId));
 			String sql = "UPDATE `account` "
 					+ "SET account.CurrentBalance = "
 					+ totalMoney
