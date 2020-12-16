@@ -100,5 +100,31 @@ public class LoanSystemSQL {
 		}		
 		return -1;
 	}
+	
+	public static void changeStatus(String LoanID, Connection con) throws SQLException {
+		Statement stmt = con.createStatement();
+		String sql = "SELECT * FROM loan WHERE LoanID = "
+				+ "'"
+				+ LoanID
+				+ "'";
+		ResultSet rs = stmt.executeQuery(sql);
+		if (rs.next()) {
+			double moneyReturned = rs.getDouble("MoneyReturned");
+			double moneyOwed = rs.getDouble("MoneyOwed");
+			if (moneyReturned >= moneyOwed) {
+				sql = "UPDATE `loan` "
+						+ "SET loan.Status = "
+						+ 1
+						+ " "
+						+ "WHERE account.AccountID = "
+						+ '"'
+						+ LoanID
+						+ '"';
+				stmt.executeUpdate(sql);
+				return;
+			}
+		}
+		return;
+	}
 
 }

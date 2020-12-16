@@ -60,7 +60,8 @@ public class LoanSystem implements LoanSystemFunctions {
 		Transaction t = new Transaction(LocalDateTime.now(), money, Common.TransName_Repay, UUID.randomUUID().toString(), AccountID, AccountID);
 		if (result != Common.Success) return result;
 		result = AccountSystemSQL.MakeTransaction(t, con);
-		// check status
+		// change status
+		LoanSystemSQL.changeStatus(LoanID, con);
 		return result;
 	}
 
