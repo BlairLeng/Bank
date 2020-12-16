@@ -331,6 +331,7 @@ public class AccountPage {
 			account = this.accountSystem.QueryAccountInformation(this.uuid);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(frmAccount.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
 			e.printStackTrace();
 		}
 		if(account != null) {

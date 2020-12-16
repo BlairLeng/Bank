@@ -255,15 +255,7 @@ public class ManagerPage {
 		new TransactionPage(transactions,usernameString,"Username");
 	}
 	public void clickDailyReportbutton() {
-		HashMap<String, Double[][]> report = new HashMap<>();
-		try {
-			report = this.managerSystem.GetDayReport(LocalDate.now());
-		}catch(Exception e) {
-			JOptionPane.showMessageDialog(frame.getContentPane(), String.valueOf(e), "Error",JOptionPane.WARNING_MESSAGE); 
-			System.out.println(e);
-			return;
-		}
-		
+		new DailyReportPage(this.managerSystem);
 	}
 	public void clickLoanRequestbutton() {
 		new LoanRequestPage(this.username, this.managerSystem);
