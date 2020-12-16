@@ -127,7 +127,7 @@ public class Stocksys implements StockSystemFunctions {
 			int amount = rs.getInt("Amount");
 			ResultSet rs1 = StockSystemSQL.getstock(conn, stockid);
 			rs1.next();
-			money += amount * rs1.getString("Price");
+			money += amount * rs1.getDouble("Price");
 		}
 		return money;
 	}
