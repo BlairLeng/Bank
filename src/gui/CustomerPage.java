@@ -130,7 +130,11 @@ public class CustomerPage {
 		// set cell not editable
 		table = new JTable(){
 			public boolean isCellEditable(int row, int column){
-				return false;
+				if(column == 0) {
+					return true;
+				}else {
+					return false;
+				}
             }
 		}; 
 		table.setFont(new Font("Segoe UI", Font.PLAIN, 12));
