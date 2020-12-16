@@ -123,8 +123,11 @@ public class AccountSystem implements AccountSystemFunctions{
 	public String RequestLoan(String AccountID, double money, int daysLoaned, double interestRate, String loanName,
 			String loanReason, String collateral) throws SQLException {
 		// TODO Auto-generated method stub
+		String result;
+		result = AccountSystemSQL.checkAccountCurrencyType(AccountID, con);
+		if (!result.equals(Common.CurrencyType_USD)) return Common.CurrencyTypeNotUSD;
 		Loan loan = new Loan(AccountID, money, daysLoaned, interestRate, loanName, loanReason, collateral);
-		String result = AccountSystemSQL.RequestLoan(loan, con);
+		result = AccountSystemSQL.RequestLoan(loan, con);
 		return result;
 	}
 
