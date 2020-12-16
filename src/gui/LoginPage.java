@@ -11,8 +11,12 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
+import CentralSystem.CentralSystem;
 import Common.Common;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import Database.DatabaseConnection;
 
 import java.awt.Font;
@@ -147,6 +151,8 @@ public class LoginPage {
 		signupJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		signupJButton.setBounds(180, 155, 100, 25);
 		frmBank.getContentPane().add(signupJButton);
+		
+		updatedate();
 	}
 	private void clickloginbutton() {
 		if(customerJRadioButton.isSelected()) {
@@ -208,5 +214,20 @@ public class LoginPage {
 	}
 	private void closeThis() {
 		frmBank.dispose();
+	}
+	private void updatedate() {
+		LocalDateTime date = LocalDateTime.now();
+		// For test
+		//LocalDateTime date = LocalDateTime.now().plusDays(1);
+		CentralSystem centralSystem = new CentralSystem(this.loginSystem.con);
+		String resultString = new String();
+		try {
+			resultString = centralSystem.UpdateSavingAccounts(date);
+		}catch(Exception e) {
+			resultString = String.valueOf(e);
+		}
+		if(!resultString.equals(Common.Success)) {
+			JOptionPane.showMessageDialog(frmBank.getContentPane(), resultString, "Update Failed",JOptionPane.WARNING_MESSAGE);
+		}
 	}
 }

@@ -171,16 +171,16 @@ public class AccountPage {
 		saveButton.setBounds(435, 20, 150, 25);
 		frmAccount.getContentPane().add(saveButton);
 		
-		JButton withdrewButton = new JButton("Withdrew");
-		withdrewButton.addMouseListener(new MouseAdapter() {
+		JButton withdrawButton = new JButton("Withdraw");
+		withdrawButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				clickWithdrewbutton();
 			}
 		});
-		withdrewButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		withdrewButton.setBounds(435, 64, 150, 25);
-		frmAccount.getContentPane().add(withdrewButton);
+		withdrawButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		withdrawButton.setBounds(435, 64, 150, 25);
+		frmAccount.getContentPane().add(withdrawButton);
 		
 		JButton sendButton = new JButton("Send Money");
 		sendButton.addMouseListener(new MouseAdapter() {
