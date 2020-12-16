@@ -227,7 +227,6 @@ public class ApplyLoanPage {
 		}else{
 			Double money = Double.valueOf(moneyString);
 			Double interests = Double.valueOf(intereString);
-			System.out.println(interests);
 			Integer time = Integer.valueOf(timeString);
 			String result = new String();
 			result = this.accountPage.ApplyLoan(money, time, interests, loannameString, reasonString, collateralString);

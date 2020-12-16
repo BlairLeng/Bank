@@ -68,6 +68,8 @@ public class LoginPage {
 	public LoginPage(LoginSystem loginSystem) {
 		this.loginSystem = loginSystem;
 		initialize();
+		updatedate();
+		frmBank.setVisible(true);
 	}
 	public void Show() {
 		this.frmBank.setVisible(true);
@@ -151,8 +153,7 @@ public class LoginPage {
 		signupJButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		signupJButton.setBounds(180, 155, 100, 25);
 		frmBank.getContentPane().add(signupJButton);
-		
-		updatedate();
+
 	}
 	private void clickloginbutton() {
 		if(customerJRadioButton.isSelected()) {
