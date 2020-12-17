@@ -1,0 +1,165 @@
+Parameters:
+
+java 11
+mysql 8.0.16
+my-sql-connector-java 8.0.16
+
+
+General Information:
+	In this project, we have account system, loan system, login system, transaction
+	system, stock system and central system. Each system has its own functionalities.
+	For example, account system is dealing with all the operations with accounts.
+	In each system package, we will have a xxxSystem file, a xxxSystemFunctions
+	file and a xxxSystemSQL file. For each xxxSystem file, it is dealing with all
+	the logical operations and logics. For each xxxSystemFunctions file, this is an
+	interface file which defines the functions in the project description. For each
+	xxxSystemSQL file, it is dealing with all the mySQL queries. Each main page in
+	gui package will link to a xxxSystem.java file and will be easy to check what
+	it can call from xxxSystemFunctions.java.
+
+src
+	-Main
+		--Main.java
+			This is the entry of this project, simply running it.
+	-Account
+		--Account.java
+			This is an abstract file which has defined all the basic informations 
+			of an account and all the getter functions.
+		--CheckingAccount.java
+			This defines the checking account in details.
+		--SavingAccount.java
+			This defines the saving account in details.
+		--GeneralAccountFunctions.java
+			This defines the abilities which an account can do.
+	-AccountSystem
+		--AccountSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+			This implements and works with all the account system can do, such as 
+			query account information
+			request loan
+			deposit
+			withdraw
+			take service fee
+		--AccountSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+			This defines all the necessary functions. 
+		--AccountSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-CentralSystem
+		--CentralSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system. We need to update the saving accounts money based on
+			the interest rate.
+		--CentralSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+		--CentralSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-Common
+		--Common.java
+			This defines all the constants and some error messages. 
+	-Config
+		--DatabaseConfig.java
+			This defines the parameters of database configs.
+	-Database
+		--DatabaseConnection.java
+			This is a test file you can run to see if you successfully connect to
+			the database.
+		--DatabaseTables.java
+			This defines all the Table creating SQL sentences.
+	-gui
+		--LoginPage:
+			The page handles user sign up and login.
+		--CustomerPage:
+			The main page customers will see after login. On this page, information about all accounts of the customer will be shown. Customers can create a new account and enter one account for further operation.
+		--CreateAccountPage:
+			Customers can create new accounts in this page. They can choose account's type, currency type and begin amount of money.
+		--ManagerPage:
+			The main page managers will see after login. On this page, information about all accounts in the bank will be shown. On the side bar, there are some buttons allowing managers to check transaction, approve loans, read the daily report and etc.
+		--AccountPage:
+			This page will show all information about a specific account. For customers, they can make deposit, withdraw, loan operations and etc to this account. For manager, they can just check the information about this account.
+		--DepositWithdrew:
+			This page will handle deposit and withdraw operations. Customers can only type in positive double numbers in it.
+		--SendPage:
+			This page will handle transaction operations. Customers type in receiver's account ID, the amount of money and optional reason to make a transaction operation.
+		--TransactionPage:
+			This page shows transaction history of a specific account or all accounts, which depends on from where the user enter the page.
+		--ApplyLoanPage:
+			This page handles loan application for customer. 
+		--LoanInfoPage:
+			This page will show all loan information of a specific account.
+		--RepayLoanPage:
+			Customers can repay a amount of money for a specific loan.
+		--LoanRequestPage:
+			This page will show all unapprove loans for manager and has a button to approve the selected loan.
+		--DailyReportPage:
+			This page will show daily report for manager.
+		--JTextFieldFilter:
+			The class handles input restrictions in pages.
+	-LoanSystem
+		--LoanSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+			We need to deal with all the loan operations here, such as 
+			get account loans
+			repay 
+			if the account has loan
+		--LoanSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+			This defines what the front end need to call from the backend.
+		--LoanSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-LoginSystem
+		--LoginSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+			This defines how to signup a new user
+			check login 
+			check if the username exists
+			and all the logical operations here.
+		--LoginSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+		--LoginSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-StockSystem
+		--StockSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+		--StockSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+		--StockSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-TransactionSystem
+		--TransactionSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+			This will deal with all the transactions and logical operations.
+			For checking account, we need to charge money for making transactions.
+			We also need to take note for each trasaction.
+		--TransactionSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+		--TransactionSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.
+	-User
+		--UserSystem.java
+			This implements all the interfaces and dealing with the logics in 
+			this system.
+			User can create new saving or checking account and view all accounts 
+		--UserSystemFunctions.java
+			This defines all the functions we need to work with and those are the
+			functions the frontend can call.
+		--UserSystemSQL.java
+			This defines all the SQL queries which we will need to do in this
+			system.

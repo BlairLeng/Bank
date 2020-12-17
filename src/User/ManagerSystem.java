@@ -190,7 +190,7 @@ public class ManagerSystem implements ManagerSystemFunctions {
 	@Override
 	public String ApproveLoan(String loanid) throws Exception {
 		String result = ManagerSystemSQL.approveloan(conn, loanid);
-		if (result != Common.Success) return result;
+//		if (result != Common.Success) return result;
 		String accid = LoanSystemSQL.getLoanAccountID(loanid, conn);
 		if (accid != Common.QueryFailed) {
 			double moneyLoaned = LoanSystemSQL.getLoanMoney(loanid, conn);

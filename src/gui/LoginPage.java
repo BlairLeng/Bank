@@ -219,7 +219,7 @@ public class LoginPage {
 	private void updatedate() {
 		LocalDateTime date = LocalDateTime.now();
 		// For test
-		//LocalDateTime date = LocalDateTime.now().plusDays(1);
+//		LocalDateTime date = LocalDateTime.now().plusDays(2);
 		CentralSystem centralSystem = new CentralSystem(this.loginSystem.con);
 		String resultString = new String();
 		try {
